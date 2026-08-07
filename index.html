@@ -12,18 +12,28 @@
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .arabic { font-family: 'Amiri', serif; line-height: 2.4; direction: rtl; }
+    
+    /* CETAK / UNDUH PDF STYLESHEET */
+    @media print {
+      header, nav, .no-print, #btn-wakelock, .subtab-bar { display: none !important; }
+      body { background: white !important; color: black !important; padding-bottom: 0 !important; }
+      main { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .tab-content { display: block !important; }
+      .subtab-content { display: block !important; page-break-after: always; }
+      .shadow-sm, .border { box-shadow: none !important; border: none !important; }
+    }
   </style>
 </head>
-<body class="bg-gray-100 pb-20 text-gray-800">
+<body class="bg-gray-100 pb-24 text-gray-800">
 
   <!-- HEADER -->
-  <header class="bg-emerald-700 text-white p-4 sticky top-0 z-50 shadow-md flex justify-between items-center">
+  <header class="bg-emerald-700 text-white p-4 sticky top-0 z-50 shadow-md flex justify-between items-center max-w-xl mx-auto">
     <h1 class="font-bold text-lg">Arisan & Buku Doa</h1>
     <span class="text-xs bg-emerald-800 px-2 py-1 rounded" id="live-date">IKT 2026</span>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-md mx-auto p-4 space-y-4">
+  <!-- MAIN CONTAINER (CENTERED FOR DESKTOP & MOBILE) -->
+  <main class="max-w-xl mx-auto p-4 space-y-4">
 
     <!-- TAB 1: BERANDA -->
     <section id="tab-home" class="tab-content space-y-4">
@@ -42,7 +52,7 @@
 
       <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-xl shadow-md">
         <h3 class="font-bold">Mode Baca Doa Hari Ini</h3>
-        <p class="text-xs text-emerald-100 mt-1">Langsung masuk ke daftar Almarhum & Panduan Doa.</p>
+        <p class="text-xs text-emerald-100 mt-1">Langsung masuk ke daftar Almarhum & Panduan Doa Berurutan.</p>
         <button onclick="switchTab('tab-doa')" class="mt-3 w-full bg-white text-emerald-800 font-bold py-2 rounded-lg text-sm shadow">
           <i class="fa-solid fa-book-open mr-1"></i> Buka Buku Doa Sekarang
         </button>
@@ -98,40 +108,59 @@
       </div>
     </section>
 
-    <!-- TAB 3: BUKU DOA DIGITAL -->
+    <!-- TAB 3: BUKU DOA DIGITAL (SUB-TAB SYSTEM) -->
     <section id="tab-doa" class="tab-content hidden space-y-4">
-      <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border sticky top-16 z-40">
+      
+      <!-- TOOLBAR PERANGKAT & UNDUH PDF -->
+      <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border sticky top-16 z-40 no-print">
         <div class="space-x-1">
           <button onclick="changeFontSize(-2)" class="px-2.5 py-1 bg-gray-100 rounded font-bold hover:bg-gray-200">A-</button>
           <button onclick="changeFontSize(2)" class="px-2.5 py-1 bg-gray-100 rounded font-bold hover:bg-gray-200">A+</button>
         </div>
-        <button id="btn-wakelock" onclick="toggleWakeLock()" class="px-3 py-1 bg-amber-100 text-amber-800 rounded font-semibold text-xs">
-          <i class="fa-solid fa-lock mr-1"></i> Layar Tetap Menyala
+        <div class="flex gap-1">
+          <button onclick="window.print()" class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded font-semibold text-xs hover:bg-emerald-200">
+            <i class="fa-solid fa-file-pdf mr-1"></i> Unduh PDF
+          </button>
+
+        </div>
+      </div>
+
+      <!-- SUB-TAB BAR NAVIGASI BACAAN -->
+      <div class="subtab-bar bg-white p-1 rounded-xl shadow-sm border flex text-xs font-bold text-center gap-1 no-print">
+        <button onclick="switchSubTab('subtab-almarhum')" id="btn-sub-almarhum" class="subtab-btn flex-1 py-2 rounded-lg bg-emerald-700 text-white">
+          1. Almarhum
+        </button>
+        <button onclick="switchSubTab('subtab-yasin')" id="btn-sub-yasin" class="subtab-btn flex-1 py-2 rounded-lg text-gray-500 hover:bg-gray-100">
+          2. Yasin
+        </button>
+        <button onclick="switchSubTab('subtab-tahlil')" id="btn-sub-tahlil" class="subtab-btn flex-1 py-2 rounded-lg text-gray-500 hover:bg-gray-100">
+          3. Tahlil
+        </button>
+        <button onclick="switchSubTab('subtab-doa')" id="btn-sub-doa" class="subtab-btn flex-1 py-2 rounded-lg text-gray-500 hover:bg-gray-100">
+          4. Doa
         </button>
       </div>
 
-      <!-- DAFTAR ALMARHUM -->
-      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm">
-        <h3 class="font-bold text-amber-900 text-sm flex items-center mb-2">
-          <i class="fa-solid fa-ribbon mr-2"></i> Kirim Doa Almarhum & Almarhumah
-        </h3>
-        <ol id="list-almarhum" class="text-xs text-amber-950 space-y-1.5 list-decimal list-inside font-medium max-h-64 overflow-y-auto pr-1">
-          <li>Memuat daftar almarhum...</li>
-        </ol>
-      </div>
+      <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border text-base">
 
-      <!-- KONTEN BACAAN BUKU DOA -->
-      <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border space-y-8 text-base">
+        <!-- SUB-TAB 1: DAFTAR ALMARHUM -->
+        <div id="subtab-almarhum" class="subtab-content space-y-4">
+          <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm">
+            <h3 class="font-bold text-amber-900 text-sm flex items-center mb-3">
+              <i class="fa-solid fa-ribbon mr-2"></i> Kirim Doa Almarhum & Almarhumah
+            </h3>
+            <ol id="list-almarhum" class="text-xs text-amber-950 space-y-2 list-decimal list-inside font-medium leading-relaxed">
+              <li>Memuat daftar almarhum...</li>
+            </ol>
+          </div>
 
-        <!-- NAVIGASI CEPAT BACAAN -->
-        <div class="flex justify-around bg-gray-50 p-2 rounded-lg text-xs font-bold text-emerald-800 border">
-          <a href="#sec-yasin" class="hover:underline"><i class="fa-solid fa-book-quran mr-1"></i>Surah Yasin</a>
-          <a href="#sec-tahlil" class="hover:underline"><i class="fa-solid fa-hands-praying mr-1"></i>Dzikir Tahlil</a>
-          <a href="#sec-doa" class="hover:underline"><i class="fa-solid fa-star-and-crescent mr-1"></i>Doa Arwah</a>
+          <button onclick="switchSubTab('subtab-yasin')" class="no-print w-full bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-emerald-800 transition">
+            Lanjut ke Surah Yasin <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
 
-        <!-- 1. SURAH YASIN (LENGKAP 83 AYAT) -->
-        <div id="sec-yasin" class="space-y-4">
+        <!-- SUB-TAB 2: SURAH YASIN -->
+        <div id="subtab-yasin" class="subtab-content hidden space-y-4">
           <div class="text-center border-b pb-3">
             <h4 class="font-bold text-lg text-emerald-800">Surah Yasin (يس)</h4>
             <p class="text-xs text-gray-500">83 Ayat - Makkiyah</p>
@@ -139,13 +168,15 @@
 
           <p class="arabic text-3xl text-center my-4 font-bold">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
 
-          <div id="yasin-verses" class="space-y-4">
-            <!-- Data Ayat Yasin dimasukkan otomatis via JS -->
-          </div>
+          <div id="yasin-verses" class="space-y-4"></div>
+
+          <button onclick="switchSubTab('subtab-tahlil')" class="no-print w-full bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-emerald-800 transition">
+            Lanjut ke Dzikir Tahlil <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
 
-        <!-- 2. DZIKIR TAHLIL LENGKAP -->
-        <div id="sec-tahlil" class="space-y-4 border-t pt-6">
+        <!-- SUB-TAB 3: DZIKIR TAHLIL -->
+        <div id="subtab-tahlil" class="subtab-content hidden space-y-4">
           <div class="text-center border-b pb-3">
             <h4 class="font-bold text-lg text-emerald-800">Dzikir Tahlil</h4>
           </div>
@@ -187,10 +218,14 @@
               <p class="text-xs text-gray-500 italic">Tiada Tuhan selain Allah, Nabi Muhammad adalah utusan Allah, semoga Allah melimpahkan shalawat dan salam kepadanya.</p>
             </div>
           </div>
+
+          <button onclick="switchSubTab('subtab-doa')" class="no-print w-full bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-emerald-800 transition">
+            Lanjut ke Doa Arwah <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
 
-        <!-- 3. DOA ARWAH & TAHLIL LENGKAP -->
-        <div id="sec-doa" class="space-y-4 border-t pt-6">
+        <!-- SUB-TAB 4: DOA ARWAH -->
+        <div id="subtab-doa" class="subtab-content hidden space-y-4">
           <div class="text-center border-b pb-3">
             <h4 class="font-bold text-lg text-emerald-800">Doa Arwah & Tahlil</h4>
           </div>
@@ -231,6 +266,10 @@
               <p class="text-xs text-gray-600">Rabbanā ātinā fid-dunyā ḥasanataw wa fil-ākhirati ḥasanataw wa qinā 'ażāban-nār. Wa ṣallallāhu 'alā sayyidinā muḥammadin wa 'alā ālihī wa ṣaḥbihī wa sallam, wal-ḥamdu lillāhi rabbil-'ālamīn.</p>
             </div>
           </div>
+
+          <button onclick="switchSubTab('subtab-almarhum')" class="no-print w-full bg-gray-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-gray-800 transition">
+            <i class="fa-solid fa-rotate-right"></i> Kembali ke Daftar Almarhum
+          </button>
         </div>
 
       </div>
@@ -263,7 +302,7 @@
   </main>
 
   <!-- BOTTOM NAVIGATION BAR -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-50">
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-50 max-w-xl mx-auto no-print">
     <button onclick="switchTab('tab-home')" class="nav-btn text-emerald-700 flex flex-col items-center text-xs font-semibold" id="btn-tab-home">
       <i class="fa-solid fa-house text-lg mb-1"></i> Beranda
     </button>
@@ -279,13 +318,11 @@
   </nav>
 
   <script>
-    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbwcf2f1G4XVi0iAo4Yu4mvldDOemv28p0yoGYmGwj2kKGhqo_ZQLQoc7z8UfUTxzm0g/exec";
 
     let currentFontSize = 16;
     let wakeLockObj = null;
 
-    // DATA AYAT YASIN RINGKAS DENGAN SCRIPT GENERATOR AYAT LENGKAP 1-83
     const yasinData = [
       {no: 1, ar: "يس", lt: "Yā Sīn.", tr: "Ya Sin."},
       {no: 2, ar: "وَالْقُرْآنِ الْحَكِيمِ", lt: "Wal-qur'ānil-ḥakīm.", tr: "Demi Al-Qur'an yang penuh hikmah,"},
@@ -316,7 +353,6 @@
           </div>
         `;
       });
-      // Menambahkan catatan pembacaan lanjutan
       html += `
         <div class="p-3 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded text-center text-xs space-y-1">
           <p class="font-bold">سُبْحَانَ الَّذِي بِيَدِهِ مَلَكُوتُ كُلِّ شَيْءٍ وَإِلَيْهِ تُرْجَعُونَ ﴿٨٣﴾</p>
@@ -332,7 +368,6 @@
         const res = await fetch(API_URL);
         const data = await res.json();
         
-        // Render Beranda
         if(data.acara && data.acara.length > 0) {
           const a = data.acara[0];
           document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah || '-';
@@ -342,7 +377,6 @@
           document.getElementById('link-maps').href = a.Link_Maps || '#';
         }
 
-        // Render Almarhum (3 KOLOM LENGKAP: NAMA, BIN_BINTI, AYAH)
         const almContainer = document.getElementById('list-almarhum');
         if(data.almarhum && data.almarhum.length > 0) {
           almContainer.innerHTML = data.almarhum.map(item => {
@@ -359,7 +393,6 @@
           }).join('');
         }
 
-        // Render Detail Kas & Auto-Calculate Saldo
         let totalMasuk = 0;
         let totalKeluar = 0;
         const detailKasContainer = document.getElementById('list-detail-kas');
@@ -396,7 +429,6 @@
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
         document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
 
-        // Render Status Iuran
         const iuranContainer = document.getElementById('list-iuran');
         if(data.iuran && data.iuran.length > 0) {
           iuranContainer.innerHTML = data.iuran.map(item => `
@@ -407,7 +439,6 @@
           `).join('');
         }
 
-        // Render Tabel Seluruh Anggota
         const tabelAnggota = document.getElementById('tabel-anggota-full');
         if(data.iuran && data.iuran.length > 0) {
           tabelAnggota.innerHTML = data.iuran.map((item, index) => {
@@ -424,7 +455,6 @@
           }).join('');
         }
 
-        // Render Riwayat
         const riwayatContainer = document.getElementById('list-riwayat');
         if(data.riwayat && data.riwayat.length > 0) {
           riwayatContainer.innerHTML = data.riwayat.map(item => `
@@ -467,6 +497,32 @@
         el.classList.add('text-gray-400');
       });
       document.getElementById('btn-' + tabId).classList.add('text-emerald-700');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function switchSubTab(subTabId) {
+      document.querySelectorAll('.subtab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(subTabId).classList.remove('hidden');
+      
+      document.querySelectorAll('.subtab-btn').forEach(el => {
+        el.classList.remove('bg-emerald-700', 'text-white');
+        el.classList.add('text-gray-500');
+      });
+
+      const activeBtnMap = {
+        'subtab-almarhum': 'btn-sub-almarhum',
+        'subtab-yasin': 'btn-sub-yasin',
+        'subtab-tahlil': 'btn-sub-tahlil',
+        'subtab-doa': 'btn-sub-doa'
+      };
+
+      const activeBtn = document.getElementById(activeBtnMap[subTabId]);
+      if(activeBtn) {
+        activeBtn.classList.remove('text-gray-500');
+        activeBtn.classList.add('bg-emerald-700', 'text-white');
+      }
+
+      window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function toggleAccordion(id) {
