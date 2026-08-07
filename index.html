@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arisan & Buku Doa Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .arabic { font-family: 'Amiri', 'Traditional Arabic', serif; line-height: 2.2; }
+  </style>
+</head>
+<body class="bg-gray-100 pb-20 text-gray-800">
+
+  <!-- HEADER -->
+  <header class="bg-emerald-700 text-white p-4 sticky top-0 z-50 shadow-md flex justify-between items-center">
+    <h1 class="font-bold text-lg">Arisan & Buku Doa</h1>
+    <span class="text-xs bg-emerald-800 px-2 py-1 rounded" id="live-date">2026</span>
+  </header>
+
+  <!-- CONTENT CONTAINER -->
+  <main class="max-w-md mx-auto p-4 space-y-4">
+
+    <!-- TAB 1: BERANDA -->
+    <section id="tab-home" class="tab-content space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Jadwal Terdekat</span>
+        <h2 class="text-xl font-bold mt-1" id="tuan-rumah">Memuat...</h2>
+        <div class="mt-3 space-y-1 text-sm text-gray-600">
+          <p><i class="fa-regular fa-calendar mr-2"></i><span id="tgl-acara">-</span></p>
+          <p><i class="fa-solid fa-microphone mr-2 text-emerald-600"></i>Petugas Doa: <strong id="petugas-doa">-</strong></p>
+          <p><i class="fa-solid fa-location-dot mr-2"></i><span id="alamat-acara">-</span></p>
+        </div>
+        <a id="link-maps" href="#" target="_blank" class="mt-4 block w-full text-center bg-emerald-50 text-emerald-700 font-semibold py-2 rounded-lg border border-emerald-200 text-sm">
+          <i class="fa-solid fa-map-location-dot mr-1"></i> Buka Google Maps
+        </a>
+      </div>
+
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-xl shadow-md">
+        <h3 class="font-bold">Mode Baca Doa Hari Ini</h3>
+        <p class="text-xs text-emerald-100 mt-1">Langsung masuk ke daftar Almarhum & Surah Yasin/Tahlil.</p>
+        <button onclick="switchTab('tab-doa')" class="mt-3 w-full bg-white text-emerald-800 font-bold py-2 rounded-lg text-sm shadow">
+          <i class="fa-solid fa-book-open mr-1"></i> Buka Buku Doa Sekarang
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 2: KEUANGAN -->
+    <section id="tab-keuangan" class="tab-content hidden space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-sm font-semibold text-gray-500">Ringkasan Kas</h3>
+        <div class="mt-2 flex justify-between items-baseline">
+          <span class="text-xs text-gray-500">Sisa Saldo Kas:</span>
+          <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
+        </div>
+        
+        <!-- ACCORDION DETAIL KAS -->
+        <button onclick="toggleAccordion('detail-kas-drawer')" class="mt-3 w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
+          <span><i class="fa-solid fa-list-check mr-1"></i> Lihat Detail Transaksi</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div id="detail-kas-drawer" class="hidden mt-3 pt-2 border-t text-xs space-y-2">
+          <div class="font-bold text-gray-700">Detail Pemasukan & Pengeluaran:</div>
+          <div id="list-detail-kas" class="space-y-1 text-gray-600">
+            <!-- Data dimasukkan via JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
+        <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
+        <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
+        <p class="text-xs text-gray-500">A/N Suwandi</p>
+        <div class="flex gap-2 pt-2">
+          <button onclick="copyRekening('1210007759008')" class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 rounded font-semibold">
+            <i class="fa-regular fa-copy mr-1"></i> Salin Rekening
+          </button>
+          <a href="https://wa.me/?text=Halo%20Pengurus,%20saya%20sudah%20transfer%20iuran%20arisan." target="_blank" class="flex-1 bg-green-500 text-white text-xs text-center py-2 rounded font-semibold">
+            <i class="fa-brands fa-whatsapp mr-1"></i> Konfirmasi WA
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-sm font-bold mb-3">Status Iuran Anggota</h3>
+        <div id="list-iuran" class="space-y-2 text-sm">
+          <!-- Data dimasukkan via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BUKU DOA DIGITAL -->
+    <section id="tab-doa" class="tab-content hidden space-y-4">
+      <!-- READER TOOLBAR -->
+      <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border">
+        <div class="space-x-1">
+          <button onclick="changeFontSize(-2)" class="px-2 py-1 bg-gray-100 rounded font-bold">A-</button>
+          <button onclick="changeFontSize(2)" class="px-2 py-1 bg-gray-100 rounded font-bold">A+</button>
+        </div>
+        <button id="btn-wakelock" onclick="toggleWakeLock()" class="px-3 py-1 bg-amber-100 text-amber-800 rounded font-semibold">
+          <i class="fa-solid fa-lock mr-1"></i> Layar Tetap Menyala
+        </button>
+      </div>
+
+      <!-- DAFTAR ALMARHUM -->
+      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+        <h3 class="font-bold text-amber-900 text-sm flex items-center">
+          <i class="fa-solid fa-ribbon mr-2"></i> Khusus Didoakan Hari Ini
+        </h3>
+        <ul id="list-almarhum" class="mt-2 text-sm text-amber-950 space-y-1 list-disc list-inside font-medium">
+          <!-- Data dimasukkan via JS -->
+        </ul>
+      </div>
+
+      <!-- TEKS YASIN & TAHLIL SAMPLE -->
+      <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border space-y-6 text-base">
+        <div>
+          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-2">Surah Yasin</h4>
+          <p class="arabic text-right text-2xl mb-1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <p class="arabic text-right text-2xl">يس ﴿١﴾ وَالْقُرْآنِ الْحَكِيمِ ﴿٢﴾</p>
+          <p class="text-xs text-gray-500 mt-1">1. Yā Sīn. 2. Wal-qur'ānil-ḥakīm.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-2">Dzikir Tahlil</h4>
+          <p class="arabic text-right text-2xl">لاَ إِلَهَ إِلاَّ اللهُ</p>
+          <p class="text-xs text-gray-500 mt-1">Tiada Tuhan selain Allah.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: KELUARGA & RIWAYAT -->
+    <section id="tab-keluarga" class="tab-content hidden space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm border">
+        <h3 class="font-bold text-sm mb-3">Riwayat Pemenang Arisan</h3>
+        <div id="list-riwayat" class="space-y-2 text-sm text-gray-600">
+          <!-- Data dimasukkan via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-50">
+    <button onclick="switchTab('tab-home')" class="nav-btn text-emerald-700 flex flex-col items-center text-xs font-semibold" id="btn-tab-home">
+      <i class="fa-solid fa-house text-lg mb-1"></i> Beranda
+    </button>
+    <button onclick="switchTab('tab-keuangan')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold" id="btn-tab-keuangan">
+      <i class="fa-solid fa-wallet text-lg mb-1"></i> Keuangan
+    </button>
+    <button onclick="switchTab('tab-doa')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold" id="btn-tab-doa">
+      <i class="fa-solid fa-book-quran text-lg mb-1"></i> Buku Doa
+    </button>
+    <button onclick="switchTab('tab-keluarga')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold" id="btn-tab-keluarga">
+      <i class="fa-solid fa-users text-lg mb-1"></i> Riwayat
+    </button>
+  </nav>
+
+  <script>
+    // PASTE KAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+    const API_URL = "https://script.google.com/macros/s/AKfycbymypxx57LkVMoJ12xqp6cyjoK8440_bLar6_8LDw4IbZPScw4kPuGZrG0jDAI03evK/exec";
+
+    let currentFontSize = 16;
+    let wakeLockObj = null;
+
+    async function loadData() {
+      if(API_URL.includes("GANTI_DENGAN")) return;
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        
+        // Render Home
+        if(data.acara.length > 0) {
+          const a = data.acara[0];
+          document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah;
+          document.getElementById('tgl-acara').innerText = a.Tanggal;
+          document.getElementById('petugas-doa').innerText = a.Petugas_Doa;
+          document.getElementById('alamat-acara').innerText = a.Alamat;
+          document.getElementById('link-maps').href = a.Link_Maps;
+          document.getElementById('sisa-saldo').innerText = 'Rp ' + Number(a.Sisa_Saldo).toLocaleString('id-ID');
+        }
+
+        // Render Almarhum (Memproses 3 Kolom: NAMA_ALMARHUM_ALMARHUMAH, BIN_BINTI, AYAH_KANDUNG)
+        const almContainer = document.getElementById('list-almarhum');
+        almContainer.innerHTML = data.almarhum.map(item => {
+          const isLaki = String(item.BIN_BINTI).trim().toLowerCase() === 'bin';
+          const prefix = isLaki ? 'Alm.' : 'Almh.';
+          const connector = isLaki ? 'bin' : 'binti';
+          return `<li>${prefix} ${item.NAMA_ALMARHUM_ALMARHUMAH} ${connector} ${item.AYAH_KANDUNG}</li>`;
+        }).join('');
+
+        // Render Status Iuran
+        const iuranContainer = document.getElementById('list-iuran');
+        iuranContainer.innerHTML = data.iuran.map(item => `
+          <div class="flex justify-between items-center py-1 border-b text-xs">
+            <span>${item.Nama_Anggota}</span>
+            <span class="px-2 py-0.5 rounded font-bold ${item.Status_Periode_Ini === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+          </div>
+        `).join('');
+
+        // Render Detail Kas
+        const detailKasContainer = document.getElementById('list-detail-kas');
+        detailKasContainer.innerHTML = data.detailKas.map(item => `
+          <div class="flex justify-between py-1 border-b">
+            <span>${item.Tanggal} - ${item.Keterangan}</span>
+            <span class="font-bold ${item.Tipe === 'Pemasukan' ? 'text-emerald-600' : 'text-red-600'}">Rp ${Number(item.Nominal).toLocaleString('id-ID')}</span>
+          </div>
+        `).join('');
+
+        // Render Riwayat
+        const riwayatContainer = document.getElementById('list-riwayat');
+        riwayatContainer.innerHTML = data.riwayat.map(item => `
+          <div class="py-1 border-b text-xs flex justify-between">
+            <span><strong>${item.Periode_Bulan_Tahun}</strong>: ${item.Nama_Pemenang}</span>
+            <span class="text-gray-400">${item.Keterangan}</span>
+          </div>
+        `).join('');
+
+      } catch (e) {
+        console.error("Gagal memuat data dari Google Sheets", e);
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(el => {
+        el.classList.remove('text-emerald-700');
+        el.classList.add('text-gray-400');
+      });
+      document.getElementById('btn-' + tabId).classList.add('text-emerald-700');
+    }
+
+    function toggleAccordion(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+
+    function copyRekening(norek) {
+      navigator.clipboard.writeText(norek);
+      alert('Nomor rekening ' + norek + ' berhasil disalin!');
+    }
+
+    function changeFontSize(delta) {
+      currentFontSize += delta;
+      document.getElementById('reader-container').style.fontSize = currentFontSize + 'px';
+    }
+
+    async function toggleWakeLock() {
+      if ('wakeLock' in navigator) {
+        try {
+          if (!wakeLockObj) {
+            wakeLockObj = await navigator.wakeLock.request('screen');
+            document.getElementById('btn-wakelock').classList.replace('bg-amber-100', 'bg-emerald-600');
+            document.getElementById('btn-wakelock').classList.replace('text-amber-800', 'text-white');
+          } else {
+            await wakeLockObj.release();
+            wakeLockObj = null;
+            document.getElementById('btn-wakelock').classList.replace('bg-emerald-600', 'bg-amber-100');
+            document.getElementById('btn-wakelock').classList.replace('text-white', 'text-amber-800');
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
