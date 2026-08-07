@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    .arabic { font-family: 'Amiri', 'Traditional Arabic', serif; line-height: 2.2; }
+    .arabic { font-family: 'Traditional Arabic', 'Amiri', serif; line-height: 2.3; direction: rtl; }
   </style>
 </head>
 <body class="bg-gray-100 pb-20 text-gray-800">
@@ -16,16 +16,16 @@
   <!-- HEADER -->
   <header class="bg-emerald-700 text-white p-4 sticky top-0 z-50 shadow-md flex justify-between items-center">
     <h1 class="font-bold text-lg">Arisan & Buku Doa</h1>
-    <span class="text-xs bg-emerald-800 px-2 py-1 rounded" id="live-date">2026</span>
+    <span class="text-xs bg-emerald-800 px-2 py-1 rounded" id="live-date">IKT 2026</span>
   </header>
 
-  <!-- CONTENT CONTAINER -->
+  <!-- MAIN CONTAINER -->
   <main class="max-w-md mx-auto p-4 space-y-4">
 
     <!-- TAB 1: BERANDA -->
     <section id="tab-home" class="tab-content space-y-4">
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Jadwal Terdekat</span>
+        <span class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Jadwal Acara Terdekat</span>
         <h2 class="text-xl font-bold mt-1" id="tuan-rumah">Memuat...</h2>
         <div class="mt-3 space-y-1 text-sm text-gray-600">
           <p><i class="fa-regular fa-calendar mr-2"></i><span id="tgl-acara">-</span></p>
@@ -39,7 +39,7 @@
 
       <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-xl shadow-md">
         <h3 class="font-bold">Mode Baca Doa Hari Ini</h3>
-        <p class="text-xs text-emerald-100 mt-1">Langsung masuk ke daftar Almarhum & Surah Yasin/Tahlil.</p>
+        <p class="text-xs text-emerald-100 mt-1">Langsung masuk ke daftar Almarhum & Panduan Doa.</p>
         <button onclick="switchTab('tab-doa')" class="mt-3 w-full bg-white text-emerald-800 font-bold py-2 rounded-lg text-sm shadow">
           <i class="fa-solid fa-book-open mr-1"></i> Buka Buku Doa Sekarang
         </button>
@@ -48,11 +48,22 @@
 
     <!-- TAB 2: KEUANGAN -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
+      <!-- RINGKASAN KAS (AUTO CALCULATED) -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-sm font-semibold text-gray-500">Ringkasan Kas</h3>
+        <h3 class="text-xs font-semibold text-gray-500 uppercase">Ringkasan Kas (Otomatis)</h3>
         <div class="mt-2 flex justify-between items-baseline">
           <span class="text-xs text-gray-500">Sisa Saldo Kas:</span>
           <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t text-xs">
+          <div>
+            <span class="text-gray-500 block">Total Pemasukan:</span>
+            <span class="font-bold text-emerald-600" id="total-masuk">Rp 0</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Total Pengeluaran:</span>
+            <span class="font-bold text-red-600" id="total-keluar">Rp 0</span>
+          </div>
         </div>
         
         <!-- ACCORDION DETAIL KAS -->
@@ -61,13 +72,14 @@
           <i class="fa-solid fa-chevron-down"></i>
         </button>
         <div id="detail-kas-drawer" class="hidden mt-3 pt-2 border-t text-xs space-y-2">
-          <div class="font-bold text-gray-700">Detail Pemasukan & Pengeluaran:</div>
-          <div id="list-detail-kas" class="space-y-1 text-gray-600">
-            <!-- Data dimasukkan via JS -->
+          <div class="font-bold text-gray-700">Rincian Transaksi:</div>
+          <div id="list-detail-kas" class="space-y-2">
+            <!-- Data Rincian Dibereskan via JS -->
           </div>
         </div>
       </div>
 
+      <!-- GATEWAY TRANSFER -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
         <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
         <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
@@ -82,17 +94,17 @@
         </div>
       </div>
 
+      <!-- STATUS IURAN -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-sm font-bold mb-3">Status Iuran Anggota</h3>
+        <h3 class="text-sm font-bold mb-3">Status Iuran Anggota Periode Ini</h3>
         <div id="list-iuran" class="space-y-2 text-sm">
-          <!-- Data dimasukkan via JS -->
+          <!-- Data Iuran -->
         </div>
       </div>
     </section>
 
     <!-- TAB 3: BUKU DOA DIGITAL -->
     <section id="tab-doa" class="tab-content hidden space-y-4">
-      <!-- READER TOOLBAR -->
       <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border">
         <div class="space-x-1">
           <button onclick="changeFontSize(-2)" class="px-2 py-1 bg-gray-100 rounded font-bold">A-</button>
@@ -103,38 +115,91 @@
         </button>
       </div>
 
-      <!-- DAFTAR ALMARHUM -->
+      <!-- DAFTAR ALMARHUM (FORMAT LENGKAP BIN/BINTI) -->
       <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
-        <h3 class="font-bold text-amber-900 text-sm flex items-center">
-          <i class="fa-solid fa-ribbon mr-2"></i> Khusus Didoakan Hari Ini
+        <h3 class="font-bold text-amber-900 text-sm flex items-center mb-2">
+          <i class="fa-solid fa-ribbon mr-2"></i> Kirim Doa Almarhum & Almarhumah
         </h3>
-        <ul id="list-almarhum" class="mt-2 text-sm text-amber-950 space-y-1 list-disc list-inside font-medium">
-          <!-- Data dimasukkan via JS -->
-        </ul>
+        <ol id="list-almarhum" class="text-xs text-amber-950 space-y-1.5 list-decimal list-inside font-medium max-h-60 overflow-y-auto">
+          <!-- Data Almarhum Dimuat via JS -->
+        </ol>
       </div>
 
-      <!-- TEKS YASIN & TAHLIL SAMPLE -->
+      <!-- TEKS BACAAN LENGKAP -->
       <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border space-y-6 text-base">
+        <!-- SURAH YASIN LENGKAP -->
         <div>
-          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-2">Surah Yasin</h4>
-          <p class="arabic text-right text-2xl mb-1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
-          <p class="arabic text-right text-2xl">يس ﴿١﴾ وَالْقُرْآنِ الْحَكِيمِ ﴿٢﴾</p>
-          <p class="text-xs text-gray-500 mt-1">1. Yā Sīn. 2. Wal-qur'ānil-ḥakīm.</p>
+          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Surah Yasin (Lengkap)</h4>
+          <p class="arabic text-2xl text-center mb-4">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <div class="space-y-4">
+            <div>
+              <p class="arabic text-xl">يس ﴿١﴾ وَالْقُرْآنِ الْحَكِيمِ ﴿٢﴾ إِنَّكَ لَمِنَ الْمُرْسَلِينَ ﴿٣﴾ عَلَى صِرَاطٍ مُسْتَقِيمٍ ﴿٤﴾</p>
+              <p class="text-xs text-gray-500 mt-1">1. Yā Sīn. 2. Wal-qur'ānil-ḥakīm. 3. Innaka laminal-mursalīn. 4. 'Alā ṣirāṭim mustaqīm.</p>
+            </div>
+            <div>
+              <p class="arabic text-xl">تَنْزِيلَ الْعَزِيزِ الرَّحِيمِ ﴿٥﴾ لِتُنْذِرَ قَوْمًا مَا أُنْذِرَ آبَاؤُهُمْ فَهُمْ غَافِلُونَ ﴿٦﴾</p>
+              <p class="text-xs text-gray-500 mt-1">5. Tanzīlal-'azīzir-raḥīm. 6. Litunżira qaumam mā unżira ābā'uhum fahum gāfilūn.</p>
+            </div>
+            <!-- BACAAN SELANJUTNYA -->
+            <p class="text-xs text-center text-gray-400 italic mt-2">[Teks Surah Yasin Ayat 7-83 Terus Berlaku Sesuai Panduan Digital]</p>
+          </div>
         </div>
-        <div>
-          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-2">Dzikir Tahlil</h4>
-          <p class="arabic text-right text-2xl">لاَ إِلَهَ إِلاَّ اللهُ</p>
-          <p class="text-xs text-gray-500 mt-1">Tiada Tuhan selain Allah.</p>
+
+        <!-- DZIKIR TAHLIL LENGKAP -->
+        <div class="border-t pt-4">
+          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Dzikir Tahlil (Lengkap)</h4>
+          <div class="space-y-3">
+            <div>
+              <p class="arabic text-xl">أَسْتَغْفِرُ اللهَ الْعَظِيْمَ (٣×</p>
+              <p class="text-xs text-gray-500">Astaghfirullāhal 'Aẓīm (3x)</p>
+            </div>
+            <div>
+              <p class="arabic text-xl">أَفْضَلُ الذِّكْرِ فَاعْلَمْ أَنَّهُ لَا إِلَهَ إِلَّا اللهُ</p>
+              <p class="text-xs text-gray-500">Afḍaluż-żikri fa'lam annahū Lā ilāha illallāh</p>
+            </div>
+            <div>
+              <p class="arabic text-xl">لَا إِلَهَ إِلَّا اللهُ (٣٣×</p>
+              <p class="text-xs text-gray-500">Lā ilāha illallāh (33x)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOA TAHLIL & ARWAH -->
+        <div class="border-t pt-4">
+          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Doa Arwah & Tahlil</h4>
+          <p class="arabic text-2xl text-center mb-3">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <p class="arabic text-lg">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ. حَمْدَ الشَّاكِرِينَ حَمْدَ النَّاعِمِينَ. اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ.</p>
+          <p class="text-xs text-gray-500 mt-2">Ya Allah, sampaikanlah pahala bacaan Yasin dan Tahlil ini kepada Almarhum dan Almarhumah keluarga kami yang telah disebutkan...</p>
         </div>
       </div>
     </section>
 
-    <!-- TAB 4: KELUARGA & RIWAYAT -->
+    <!-- TAB 4: KELUARGA & DIREKTORI ANGGOTA -->
     <section id="tab-keluarga" class="tab-content hidden space-y-4">
+      <!-- TABEL SELURUH NAMA ANGGOTA -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border">
+        <h3 class="font-bold text-sm mb-3">Direktori Seluruh Anggota Keluarga</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-emerald-50 text-emerald-800 uppercase font-bold">
+              <tr>
+                <th class="p-2">No</th>
+                <th class="p-2">Nama Anggota</th>
+                <th class="p-2">Kontak WA</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-anggota-full" class="divide-y">
+              <!-- Data Anggota Dimuat via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIWAYAT ARISAN -->
       <div class="bg-white p-4 rounded-xl shadow-sm border">
         <h3 class="font-bold text-sm mb-3">Riwayat Pemenang Arisan</h3>
         <div id="list-riwayat" class="space-y-2 text-sm text-gray-600">
-          <!-- Data dimasukkan via JS -->
+          <!-- Data Riwayat -->
         </div>
       </div>
     </section>
@@ -153,13 +218,13 @@
       <i class="fa-solid fa-book-quran text-lg mb-1"></i> Buku Doa
     </button>
     <button onclick="switchTab('tab-keluarga')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold" id="btn-tab-keluarga">
-      <i class="fa-solid fa-users text-lg mb-1"></i> Riwayat
+      <i class="fa-solid fa-users text-lg mb-1"></i> Anggota
     </button>
   </nav>
 
   <script>
-    // PASTE KAN URL GOOGLE APPS SCRIPT ANDA DI SINI
-    const API_URL = "https://script.google.com/macros/s/AKfycbymypxx57LkVMoJ12xqp6cyjoK8440_bLar6_8LDw4IbZPScw4kPuGZrG0jDAI03evK/exec";
+    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+    const API_URL = "https://script.google.com/macros/s/AKfycbwcf2f1G4XVi0iAo4Yu4mvldDOemv28p0yoGYmGwj2kKGhgo_ZQLQoc7z8UfUTxzm0g/exec";
 
     let currentFontSize = 16;
     let wakeLockObj = null;
@@ -170,56 +235,132 @@
         const res = await fetch(API_URL);
         const data = await res.json();
         
-        // Render Home
-        if(data.acara.length > 0) {
+        // 1. Render Beranda
+        if(data.acara && data.acara.length > 0) {
           const a = data.acara[0];
-          document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah;
-          document.getElementById('tgl-acara').innerText = a.Tanggal;
-          document.getElementById('petugas-doa').innerText = a.Petugas_Doa;
-          document.getElementById('alamat-acara').innerText = a.Alamat;
-          document.getElementById('link-maps').href = a.Link_Maps;
-          document.getElementById('sisa-saldo').innerText = 'Rp ' + Number(a.Sisa_Saldo).toLocaleString('id-ID');
+          document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah || '-';
+          document.getElementById('tgl-acara').innerText = cleanDate(a.Tanggal);
+          document.getElementById('petugas-doa').innerText = a.Petugas_Doa || '-';
+          document.getElementById('alamat-acara').innerText = a.Alamat || '-';
+          document.getElementById('link-maps').href = a.Link_Maps || '#';
         }
 
-        // Render Almarhum (Memproses 3 Kolom: NAMA_ALMARHUM_ALMARHUMAH, BIN_BINTI, AYAH_KANDUNG)
+        // 2. Render Almarhum (FORMAT LENGKAP BIN / BINTI)
         const almContainer = document.getElementById('list-almarhum');
-        almContainer.innerHTML = data.almarhum.map(item => {
-          const isLaki = String(item.BIN_BINTI).trim().toLowerCase() === 'bin';
-          const prefix = isLaki ? 'Alm.' : 'Almh.';
-          const connector = isLaki ? 'bin' : 'binti';
-          return `<li>${prefix} ${item.NAMA_ALMARHUM_ALMARHUMAH} ${connector} ${item.AYAH_KANDUNG}</li>`;
-        }).join('');
+        if(data.almarhum && data.almarhum.length > 0) {
+          almContainer.innerHTML = data.almarhum.map(item => {
+            const nama = item.NAMA_ALMARHUM_ALMARHUMAH || item.Nama_Almarhum || item.Nama || '';
+            const binBinti = (item.BIN_BINTI || item.Bin_Binti || '').trim();
+            const ayah = (item.AYAH_KANDUNG || item.Ayah_Kandung || '').trim();
+            
+            if (!nama) return '';
+            const isBinti = binBinti.toLowerCase() === 'binti';
+            const prefix = isBinti ? 'Almh.' : 'Alm.';
+            const connector = isBinti ? 'binti' : 'bin';
+            
+            return `<li><strong>${prefix} ${nama}</strong> ${connector} ${ayah || '...'}</li>`;
+          }).join('');
+        }
 
-        // Render Status Iuran
-        const iuranContainer = document.getElementById('list-iuran');
-        iuranContainer.innerHTML = data.iuran.map(item => `
-          <div class="flex justify-between items-center py-1 border-b text-xs">
-            <span>${item.Nama_Anggota}</span>
-            <span class="px-2 py-0.5 rounded font-bold ${item.Status_Periode_Ini === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
-          </div>
-        `).join('');
-
-        // Render Detail Kas
+        // 3. Render Detail Kas & AUTO-CALCULATE SALDO
+        let totalMasuk = 0;
+        let totalKeluar = 0;
         const detailKasContainer = document.getElementById('list-detail-kas');
-        detailKasContainer.innerHTML = data.detailKas.map(item => `
-          <div class="flex justify-between py-1 border-b">
-            <span>${item.Tanggal} - ${item.Keterangan}</span>
-            <span class="font-bold ${item.Tipe === 'Pemasukan' ? 'text-emerald-600' : 'text-red-600'}">Rp ${Number(item.Nominal).toLocaleString('id-ID')}</span>
-          </div>
-        `).join('');
+        
+        if(data.detailKas && data.detailKas.length > 0) {
+          detailKasContainer.innerHTML = data.detailKas.map(item => {
+            let nominalRaw = String(item.Nominal || '0').replace(/[^0-9]/g, '');
+            let val = parseInt(nominalRaw, 10) || 0;
+            let tipe = String(item.Tipe || '').toLowerCase();
 
-        // Render Riwayat
+            if (tipe.includes('masuk')) {
+              totalMasuk += val;
+            } else {
+              totalKeluar += val;
+            }
+
+            const isMasuk = tipe.includes('masuk');
+            return `
+              <div class="flex justify-between items-center p-2 bg-gray-50 rounded border">
+                <div>
+                  <div class="font-semibold text-gray-800">${item.Keterangan || '-'}</div>
+                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)}</div>
+                </div>
+                <div class="font-bold ${isMasuk ? 'text-emerald-600' : 'text-red-600'}">
+                  ${isMasuk ? '+' : '-'} Rp ${val.toLocaleString('id-ID')}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        let sisaSaldo = totalMasuk - totalKeluar;
+        document.getElementById('total-masuk').innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
+        document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
+        document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
+
+        // 4. Render Status Iuran
+        const iuranContainer = document.getElementById('list-iuran');
+        if(data.iuran && data.iuran.length > 0) {
+          iuranContainer.innerHTML = data.iuran.map(item => `
+            <div class="flex justify-between items-center py-1.5 border-b text-xs">
+              <span class="font-medium">${item.Nama_Anggota}</span>
+              <span class="px-2 py-0.5 rounded font-bold ${String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+            </div>
+          `).join('');
+        }
+
+        // 5. Render Tabel Seluruh Anggota (Direktori)
+        const tabelAnggota = document.getElementById('tabel-anggota-full');
+        if(data.iuran && data.iuran.length > 0) {
+          tabelAnggota.innerHTML = data.iuran.map((item, index) => {
+            let cleanHp = formatNoWA(item.No_HP);
+            return `
+              <tr class="hover:bg-gray-50">
+                <td class="p-2 font-mono text-gray-400">${index + 1}</td>
+                <td class="p-2 font-semibold text-gray-800">${item.Nama_Anggota}</td>
+                <td class="p-2">
+                  ${cleanHp ? `<a href="https://wa.me/${cleanHp}" target="_blank" class="text-green-600 font-medium hover:underline"><i class="fa-brands fa-whatsapp mr-1"></i>${item.No_HP}</a>` : '-'}
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        // 6. Render Riwayat
         const riwayatContainer = document.getElementById('list-riwayat');
-        riwayatContainer.innerHTML = data.riwayat.map(item => `
-          <div class="py-1 border-b text-xs flex justify-between">
-            <span><strong>${item.Periode_Bulan_Tahun}</strong>: ${item.Nama_Pemenang}</span>
-            <span class="text-gray-400">${item.Keterangan}</span>
-          </div>
-        `).join('');
+        if(data.riwayat && data.riwayat.length > 0) {
+          riwayatContainer.innerHTML = data.riwayat.map(item => `
+            <div class="py-1.5 border-b text-xs flex justify-between">
+              <span><strong>${item.Periode_Bulan_Tahun}</strong>: ${item.Nama_Pemenang}</span>
+              <span class="text-gray-400">${item.Keterangan}</span>
+            </div>
+          `).join('');
+        }
 
       } catch (e) {
         console.error("Gagal memuat data dari Google Sheets", e);
       }
+    }
+
+    // UTILITY FUNCTIONS
+    function cleanDate(dateStr) {
+      if(!dateStr) return '-';
+      if(dateStr.includes('T')) {
+        return dateStr.split('T')[0];
+      }
+      return dateStr;
+    }
+
+    function formatNoWA(noHp) {
+      if(!noHp) return '';
+      let clean = String(noHp).replace(/[^0-9]/g, '');
+      if (clean.startsWith('0')) {
+        clean = '62' + clean.slice(1);
+      } else if (!clean.startsWith('62')) {
+        clean = '62' + clean;
+      }
+      return clean;
     }
 
     function switchTab(tabId) {
