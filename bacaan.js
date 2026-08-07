@@ -88,7 +88,7 @@ const YASIN_LENGKAP = [
 ];
 
 // ==========================================
-// 2. DATA TAHLIL LENGKAP NU ONLINE (18 ITEM)
+// 2. DATA TAHLIL LENGKAP NU ONLINE (17 ITEM)
 // ==========================================
 const TAHLIL_NU_ONLINE = [
   {
@@ -107,77 +107,72 @@ const TAHLIL_NU_ONLINE = [
     lt: "Tsumma ilā jamī'i ahlil-qubūri minal-muslimīna wal-muslimāti wal-mu'minīna wal-mu'mināti min masyāriqil-arḍi ilā magāribihā barrihā wa baḥrihā khuṣūṣan ilā ābā'inā wa ummahātinā wa ajdādinā wa jaddātinā wa masyāyikhinā wa masyāyikhi masyāyikhinā wa asātidzati asātidzatinā wa liman aḥsana ilainā wa liman ijtama'nā hāhunā bisababihī, al-fātiḥah."
   },
   {
-    judul: "4. Hadrah Khususon Nama Almarhum / Almarhumah",
-    ar: "ثُمَّ إِلَى جَمِيعِ أَهْلِ الْقُبُورِ مِمَّنْ ذُكِرَتْ أَسْمَاؤُهُ فِي هٰذِهِ الرِّسَالَةِ، حَضْرَةِ رُوحِ ( ... ) وَحَضْرَةِ رُوحِ ( ... )، رَحِمَهُمُ اللَّهُ وَغَفَرَهُمْ، الْفَاتِحَةُ",
-    lt: "Tsumma ilā jamī'i ahlil-qubūri mimman dzukirot asmā'uhū fī hāżihir-risālati, ḥaḍrati rūḥi (...), wa ḥaḍrati rūḥi (...), raḥimahumullāhu wa ghafara lahum, al-fātiḥah."
-  },
-  {
-    judul: "5. Surah Al-Ikhlas (3x) & Takbir",
+    judul: "4. Surah Al-Ikhlas (3x) & Takbir",
     ar: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ. قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ ﴿٤﴾ (٣×)\n\nلَا إِلٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     lt: "Bismillāhir-raḥmānir-raḥīm. Qul huwallāhu aḥad, Allāhuṣ-ṣamad, lam yalid wa lam yūlad, wa lam yakul lahū kufuwan aḥad. (3x)\n\nLā ilāha illallāhu wallāhu akbar."
   },
   {
-    judul: "6. Surah Al-Falaq & Takbir",
+    judul: "5. Surah Al-Falaq & Takbir",
     ar: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ. قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ﴿١﴾ مِنْ شَرِّ مَا خَلَقَ ﴿٢﴾ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴿٣﴾ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ﴿٤﴾ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ ﴿٥﴾\n\nلَا إِلٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     lt: "Bismillāhir-raḥmānir-raḥīm. Qul a'ūżu birabbil-falaq, min syarri mā khalaq, wa min syarri gāsiqin iżā waqab, wa min syarrin-naffāṡāti fil-'uqad, wa min syarri ḥāsidin iżā ḥasad.\n\nLā ilāha illallāhu wallāhu akbar."
   },
   {
-    judul: "7. Surah An-Nas & Takbir",
+    judul: "6. Surah An-Nas & Takbir",
     ar: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ. قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ مَلِكِ النَّاسِ ﴿٢﴾ إِلٰهِ النَّاسِ ﴿٣﴾ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴿٤﴾ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ﴿٥﴾ مِنَ الْجِنَّةِ وَالنَّاسِ ﴿٦﴾\n\nلَا إِلٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
     lt: "Bismillāhir-raḥmānir-raḥīm. Qul a'ūżu birabbin-nās, malikin-nās, ilāhin-nās, min syarril-waswāsil-khannās, allażī yuwaswisu fī ṣudūrin-nās, minal-jinnati wan-nās.\n\nLā ilāha illallāhu wallāhu akbar."
   },
   {
-    judul: "8. Surah Al-Fatihah",
+    judul: "7. Surah Al-Fatihah",
     ar: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿١﴾ الرَّحْمٰنِ الرَّحِيمِ ﴿٢﴾ مَالِكِ يَوْمِ الدِّينِ ﴿٣﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٤﴾ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٥﴾ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٦﴾ آمِيْن",
     lt: "Bismillāhir-raḥmānir-raḥīm. Al-ḥamdu lillāhi rabbil-'ālamīn, Ar-raḥmānir-raḥīm, Māliki yaumid-dīn, Iyyāka na'budu wa iyyāka nasta'īn, Ihdināṣ-ṣirāṭal-mustaqīm, Ṣirāṭallażīna an'amta 'alaihim gairil-magḍūbi 'alaihim wa lāḍ-ḍāllīn. Āmīn."
   },
   {
-    judul: "9. Awal Surah Al-Baqarah (Ayat 1-5)",
+    judul: "8. Awal Surah Al-Baqarah (Ayat 1-5)",
     ar: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ. الم ﴿١﴾ ذٰلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ ﴿٢﴾ الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ ﴿٣﴾ وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنْزِلَ إِلَيْكَ وَمَا أُنْزِلَ مِنْ قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ ﴿٤﴾ أُولٰئِكَ عَلَى هُدًى مِنْ رَبِّهِمْ وَأُولٰئِكَ هُمُ الْمُفْلِحُونَ ﴿٥﴾",
     lt: "Bismillāhir-raḥmānir-raḥīm. Alif-lām-mīm. Żālikal-kitābu lā raiba fīh, hudal lil-muttaqīn. Allażīna yu'minūna bil-gaibi wa yuqīmūnaṣ-ṣalāta wa mimmā razaqnāhum yunfiqūn. Wallażīna yu'minūna bimā unzila ilaika wa mā unzila min qablika, wa bil-ākhirati hum yūqinūn. Ulā'ika 'alā hudam mir rabbihim wa ulā'ika humul-mufliḥūn."
   },
   {
-    judul: "10. Ayat Tauhid & Ayat Kursi",
+    judul: "9. Ayat Tauhid & Ayat Kursi",
     ar: "وَإِلٰهُكُمْ إِلٰهٌ وَاحِدٌ لَا إِلٰهَ إِلَّا هُوَ الرَّحْمٰنُ الرَّحِيمُ.\n\nاللَّهُ لَا إِلٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ، لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ، مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ، يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ، وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ، وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ، وَلَا يَئُودُهُ حِفْظُهُمَا، وَهُوَ الْعَلِيُّ الْعَظِيمُ.",
     lt: "Wa ilāhukum ilāhuw wāḥid, lā ilāha illā huwar-raḥmānur-raḥīm.\n\nAllāhu lā ilāha illā huwal-ḥayyul-qayyūm, lā ta'khużuhū sinatuw wa lā naūm, lahū mā fis-samāwāti wa mā fil-arḍ, man żallażī yasyfa'u 'indahū illā bi'iżnih, ya'lamu mā baina aidīhim wa mā khalfahum, wa lā yuḥīṭūna bisyai'im min 'ilmihī illā bimā syā', wasi'a kursiyyuhus-samāwāti wal-arḍ, wa lā ya'ūduhū ḥifẓuhumā, wa huwal-'aliyyul-'aẓīm."
   },
   {
-    judul: "11. Istighfar (3x)",
+    judul: "10. Istighfar (3x)",
     ar: "أَسْتَغْفِرُ اللهَ الْعَظِيمَ (٣×)",
     lt: "Astaghfirullāhal-'aẓīm (3x)"
   },
   {
-    judul: "12. Pengantar Tahlil Utama",
+    judul: "11. Pengantar Tahlil Utama",
     ar: "أَفْضَلُ الذِّكْرِ فَاعْلَمْ أَنَّهُ لَا إِلَهَ إِلَّا اللَّهُ، حَيٌّ مَوْجُودٌ\nلَا إِلَهَ إِلَّا اللَّهُ، حَيٌّ مَعْبُودٌ\nلَا إِلَهَ إِلَّا اللَّهُ، حَيٌّ بَاقٍ",
     lt: "Afḍalud-żikri fa'lam annahū lā ilāha illallāhu ḥayyun maujūd.\nLā ilāha illallāhu ḥayyun ma'būd.\nLā ilāha illallāhu ḥayyun bāq."
   },
   {
-    judul: "13. Tahlil Utama (100x)",
+    judul: "12. Tahlil Utama (100x)",
     ar: "لَا إِلَهَ إِلَّا اللهُ (١٠٠×)",
     lt: "Lā ilāha illallāh (100x)"
   },
   {
-    judul: "14. Shalawat Nabi (2x)",
+    judul: "13. Shalawat Nabi (2x)",
     ar: "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ، اللَّهُمَّ صَلِّ عَلَيْهِ وَسَلِّمْ (٢×)",
     lt: "Allāhumma ṣalli 'alā sayyidinā Muḥammadin, Allāhumma ṣalli 'alaihi wa sallim (2x)"
   },
   {
-    judul: "15. Tasbih Makhluk Allah (7x)",
+    judul: "14. Tasbih Makhluk Allah (7x)",
     ar: "سُبْحَانَ اللَّهِ عَدَدَ مَا خَلَقَ اللَّهُ (٧×)",
     lt: "Subḥānallāhi 'adada mā khalaqallāh (7x)"
   },
   {
-    judul: "16. Tasbih Maha Agung (33x)",
+    judul: "15. Tasbih Maha Agung (33x)",
     ar: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ (٣٣×)",
     lt: "Subḥānallāhi wa biḥamdihī subḥānallāhil-'aẓīm (33x)"
   },
   {
-    judul: "17. Shalawat Kekasih Allah (2x)",
+    judul: "16. Shalawat Kekasih Allah (2x)",
     ar: "اللَّهُمَّ صَلِّ عَلَى حَبِيبِكَ سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلِّمْ (٢×)",
     lt: "Allāhumma ṣalli 'alā ḥabībika sayyidinā Muḥammadin wa 'alā ālihī wa ṣaḥbihī wa sallim (2x)"
   },
   {
-    judul: "18. Shalawat & Berkah Penutup",
+    judul: "17. Shalawat & Berkah Penutup",
     ar: "اللَّهُمَّ صَلِّ عَلَى حَبِيبِكَ سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَبَارِكْ وَسَلِّمْ أَجْمَعِينَ",
     lt: "Allāhumma ṣalli 'alā ḥabībika sayyidinā Muḥammadin wa 'alā ālihī wa ṣaḥbihī wa bārik wa sallim ajma'īn."
   }
