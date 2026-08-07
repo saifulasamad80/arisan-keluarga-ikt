@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arisan & Buku Doa Digital</title>
+  
+  <!-- PWA MANIFEST & THEME COLOR -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#047857">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,8 +121,6 @@
 
     <!-- TAB 3: BUKU DOA DIGITAL -->
     <section id="tab-doa" class="tab-content hidden space-y-4">
-      
-      <!-- TOOLBAR DENGAN TOMBOL A- DAN A+ -->
       <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border sticky top-16 z-40 no-print">
         <div class="space-x-1">
           <button onclick="changeFontSize(-1)" class="px-2.5 py-1 bg-gray-100 rounded font-bold hover:bg-gray-200">A-</button>
@@ -131,7 +136,6 @@
         </div>
       </div>
 
-      <!-- SUB-TAB BAR NAVIGASI BACAAN -->
       <div class="subtab-bar bg-white p-1 rounded-xl shadow-sm border flex text-xs font-bold text-center gap-1 no-print">
         <button onclick="switchSubTab('subtab-almarhum')" id="btn-sub-almarhum" class="subtab-btn flex-1 py-2 rounded-lg bg-emerald-700 text-white">
           1. Almarhum
@@ -148,8 +152,6 @@
       </div>
 
       <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border">
-
-        <!-- SUB-TAB 1: DAFTAR ALMARHUM -->
         <div id="subtab-almarhum" class="subtab-content space-y-4">
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm">
             <h3 class="font-bold text-amber-900 text-sm flex items-center mb-3">
@@ -159,34 +161,25 @@
               <li>Memuat daftar almarhum...</li>
             </ol>
           </div>
-
           <button onclick="switchSubTab('subtab-yasin')" class="no-print w-full bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-emerald-800 transition">
             Lanjut ke Surah Yasin <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <!-- SUB-TAB 2: SURAH YASIN -->
         <div id="subtab-yasin" class="subtab-content hidden space-y-4">
           <div class="text-center border-b pb-3">
             <h4 class="font-bold text-lg text-emerald-800">Surah Yasin (يس)</h4>
             <p class="text-xs text-gray-500">83 Ayat Lengkap</p>
           </div>
-
           <p class="arabic text-center my-4 font-bold">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
-
           <div id="yasin-verses" class="space-y-4"></div>
-
           <button onclick="switchSubTab('subtab-tahlil')" class="no-print w-full bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 hover:bg-emerald-800 transition">
             Lanjut ke Dzikir Tahlil <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <!-- SUB-TAB 3: DZIKIR TAHLIL -->
         <div id="subtab-tahlil" class="subtab-content hidden space-y-4"></div>
-
-        <!-- SUB-TAB 4: DOA ARWAH -->
         <div id="subtab-doa" class="subtab-content hidden space-y-4"></div>
-
       </div>
     </section>
 
@@ -232,17 +225,19 @@
     </button>
   </nav>
 
-  <!-- FILE DATA BACAAN TERPISAH -->
   <script src="bacaan.js"></script>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1KAwN5Yf6RbKh7qWWP-h_SabPdjHaJi7lsxTacd3n8xuH-bJ2eUIYc16z-tNG7boI/exec";
 
-    let arabicSize = 1.5; // rem
-    let latinSize = 0.75; // rem
+    let arabicSize = parseFloat(localStorage.getItem('arabicSize')) || 1.5;
+    let latinSize = parseFloat(localStorage.getItem('latinSize')) || 0.75;
     let wakeLockObj = null;
 
-    // FUNGSI PENGATUR UKURAN FONT A- DAN A+
+    // TERAPKAN PREFERENSI TERSIMPAN
+    document.documentElement.style.setProperty('--arabic-size', arabicSize + 'rem');
+    document.documentElement.style.setProperty('--latin-size', latinSize + 'rem');
+
     function changeFontSize(delta) {
       arabicSize += delta * 0.15;
       latinSize += delta * 0.075;
@@ -254,6 +249,10 @@
 
       document.documentElement.style.setProperty('--arabic-size', arabicSize + 'rem');
       document.documentElement.style.setProperty('--latin-size', latinSize + 'rem');
+
+      // SIMPAN KE LOCALSTORAGE
+      localStorage.setItem('arabicSize', arabicSize);
+      localStorage.setItem('latinSize', latinSize);
     }
 
     function renderYasin() {
@@ -341,6 +340,14 @@
       renderYasin();
       renderTahlil();
       renderDoa();
+
+      // RESTORE LAST ACTIVE TAB
+      const savedTab = localStorage.getItem('activeTab') || 'tab-home';
+      const savedSubTab = localStorage.getItem('activeSubTab') || 'subtab-almarhum';
+      switchTab(savedTab);
+      if (savedTab === 'tab-doa') {
+        switchSubTab(savedSubTab);
+      }
 
       try {
         const res = await fetch(API_URL);
@@ -475,6 +482,7 @@
         el.classList.add('text-gray-400');
       });
       document.getElementById('btn-' + tabId).classList.add('text-emerald-700');
+      localStorage.setItem('activeTab', tabId);
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
@@ -500,6 +508,7 @@
         activeBtn.classList.add('bg-emerald-700', 'text-white');
       }
 
+      localStorage.setItem('activeSubTab', subTabId);
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
@@ -529,6 +538,15 @@
           console.log(err);
         }
       }
+    }
+
+    // REGISTRASI SERVICE WORKER UNTUK FULL OFFLINE PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker Aktif:', reg.scope))
+          .catch(err => console.error('Gagal Registrasi SW:', err));
+      });
     }
 
     loadData();
