@@ -1,0 +1,22 @@
+{
+  "name": "Arisan & Buku Doa Digital IKT",
+  "short_name": "ArisanDoaIKT",
+  "description": "Aplikasi Arisan Keluarga dan Buku Doa Digital (Yasin, Tahlil, Doa Arwah)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#047857",
+  "theme_color": "#047857",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3208/3208229.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3208/3208229.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
