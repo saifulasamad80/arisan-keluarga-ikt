@@ -6,9 +6,12 @@
   <title>Arisan & Buku Doa Digital</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    .arabic { font-family: 'Traditional Arabic', 'Amiri', serif; line-height: 2.3; direction: rtl; }
+    .arabic { font-family: 'Amiri', serif; line-height: 2.4; direction: rtl; }
   </style>
 </head>
 <body class="bg-gray-100 pb-20 text-gray-800">
@@ -48,7 +51,6 @@
 
     <!-- TAB 2: KEUANGAN -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
-      <!-- RINGKASAN KAS (AUTO CALCULATED) -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xs font-semibold text-gray-500 uppercase">Ringkasan Kas (Otomatis)</h3>
         <div class="mt-2 flex justify-between items-baseline">
@@ -66,20 +68,16 @@
           </div>
         </div>
         
-        <!-- ACCORDION DETAIL KAS -->
         <button onclick="toggleAccordion('detail-kas-drawer')" class="mt-3 w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
           <span><i class="fa-solid fa-list-check mr-1"></i> Lihat Detail Transaksi</span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
         <div id="detail-kas-drawer" class="hidden mt-3 pt-2 border-t text-xs space-y-2">
           <div class="font-bold text-gray-700">Rincian Transaksi:</div>
-          <div id="list-detail-kas" class="space-y-2">
-            <!-- Data Rincian Dibereskan via JS -->
-          </div>
+          <div id="list-detail-kas" class="space-y-2"></div>
         </div>
       </div>
 
-      <!-- GATEWAY TRANSFER -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
         <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
         <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
@@ -94,113 +92,171 @@
         </div>
       </div>
 
-      <!-- STATUS IURAN -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-sm font-bold mb-3">Status Iuran Anggota Periode Ini</h3>
-        <div id="list-iuran" class="space-y-2 text-sm">
-          <!-- Data Iuran -->
-        </div>
+        <div id="list-iuran" class="space-y-2 text-sm"></div>
       </div>
     </section>
 
     <!-- TAB 3: BUKU DOA DIGITAL -->
     <section id="tab-doa" class="tab-content hidden space-y-4">
-      <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border">
+      <div class="bg-white p-3 rounded-xl shadow-sm flex justify-between items-center text-xs border sticky top-16 z-40">
         <div class="space-x-1">
-          <button onclick="changeFontSize(-2)" class="px-2 py-1 bg-gray-100 rounded font-bold">A-</button>
-          <button onclick="changeFontSize(2)" class="px-2 py-1 bg-gray-100 rounded font-bold">A+</button>
+          <button onclick="changeFontSize(-2)" class="px-2.5 py-1 bg-gray-100 rounded font-bold hover:bg-gray-200">A-</button>
+          <button onclick="changeFontSize(2)" class="px-2.5 py-1 bg-gray-100 rounded font-bold hover:bg-gray-200">A+</button>
         </div>
-        <button id="btn-wakelock" onclick="toggleWakeLock()" class="px-3 py-1 bg-amber-100 text-amber-800 rounded font-semibold">
+        <button id="btn-wakelock" onclick="toggleWakeLock()" class="px-3 py-1 bg-amber-100 text-amber-800 rounded font-semibold text-xs">
           <i class="fa-solid fa-lock mr-1"></i> Layar Tetap Menyala
         </button>
       </div>
 
-      <!-- DAFTAR ALMARHUM (FORMAT LENGKAP BIN/BINTI) -->
-      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+      <!-- DAFTAR ALMARHUM -->
+      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl shadow-sm">
         <h3 class="font-bold text-amber-900 text-sm flex items-center mb-2">
           <i class="fa-solid fa-ribbon mr-2"></i> Kirim Doa Almarhum & Almarhumah
         </h3>
-        <ol id="list-almarhum" class="text-xs text-amber-950 space-y-1.5 list-decimal list-inside font-medium max-h-60 overflow-y-auto">
-          <!-- Data Almarhum Dimuat via JS -->
+        <ol id="list-almarhum" class="text-xs text-amber-950 space-y-1.5 list-decimal list-inside font-medium max-h-64 overflow-y-auto pr-1">
+          <li>Memuat daftar almarhum...</li>
         </ol>
       </div>
 
-      <!-- TEKS BACAAN LENGKAP -->
-      <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border space-y-6 text-base">
-        <!-- SURAH YASIN LENGKAP -->
-        <div>
-          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Surah Yasin (Lengkap)</h4>
-          <p class="arabic text-2xl text-center mb-4">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+      <!-- KONTEN BACAAN BUKU DOA -->
+      <div id="reader-container" class="bg-white p-4 rounded-xl shadow-sm border space-y-8 text-base">
+
+        <!-- NAVIGASI CEPAT BACAAN -->
+        <div class="flex justify-around bg-gray-50 p-2 rounded-lg text-xs font-bold text-emerald-800 border">
+          <a href="#sec-yasin" class="hover:underline"><i class="fa-solid fa-book-quran mr-1"></i>Surah Yasin</a>
+          <a href="#sec-tahlil" class="hover:underline"><i class="fa-solid fa-hands-praying mr-1"></i>Dzikir Tahlil</a>
+          <a href="#sec-doa" class="hover:underline"><i class="fa-solid fa-star-and-crescent mr-1"></i>Doa Arwah</a>
+        </div>
+
+        <!-- 1. SURAH YASIN (LENGKAP 83 AYAT) -->
+        <div id="sec-yasin" class="space-y-4">
+          <div class="text-center border-b pb-3">
+            <h4 class="font-bold text-lg text-emerald-800">Surah Yasin (يس)</h4>
+            <p class="text-xs text-gray-500">83 Ayat - Makkiyah</p>
+          </div>
+
+          <p class="arabic text-3xl text-center my-4 font-bold">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+
+          <div id="yasin-verses" class="space-y-4">
+            <!-- Data Ayat Yasin dimasukkan otomatis via JS -->
+          </div>
+        </div>
+
+        <!-- 2. DZIKIR TAHLIL LENGKAP -->
+        <div id="sec-tahlil" class="space-y-4 border-t pt-6">
+          <div class="text-center border-b pb-3">
+            <h4 class="font-bold text-lg text-emerald-800">Dzikir Tahlil</h4>
+          </div>
+
           <div class="space-y-4">
-            <div>
-              <p class="arabic text-xl">يس ﴿١﴾ وَالْقُرْآنِ الْحَكِيمِ ﴿٢﴾ إِنَّكَ لَمِنَ الْمُرْسَلِينَ ﴿٣﴾ عَلَى صِرَاطٍ مُسْتَقِيمٍ ﴿٤﴾</p>
-              <p class="text-xs text-gray-500 mt-1">1. Yā Sīn. 2. Wal-qur'ānil-ḥakīm. 3. Innaka laminal-mursalīn. 4. 'Alā ṣirāṭim mustaqīm.</p>
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">أَسْتَغْفِرُ اللهَ الْعَظِيْمَ (٣×)</p>
+              <p class="text-xs text-gray-600">Astaghfirullāhal 'aẓīm (3x)</p>
+              <p class="text-xs text-gray-500 italic">Aku memohon ampun kepada Allah Yang Maha Agung.</p>
             </div>
-            <div>
-              <p class="arabic text-xl">تَنْزِيلَ الْعَزِيزِ الرَّحِيمِ ﴿٥﴾ لِتُنْذِرَ قَوْمًا مَا أُنْذِرَ آبَاؤُهُمْ فَهُمْ غَافِلُونَ ﴿٦﴾</p>
-              <p class="text-xs text-gray-500 mt-1">5. Tanzīlal-'azīzir-raḥīm. 6. Litunżira qaumam mā unżira ābā'uhum fahum gāfilūn.</p>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">أَفْضَلُ الذِّكْرِ فَاعْلَمْ أَنَّهُ لَا إِلَهَ إِلَّا اللهُ، حَيٌّ مَوْجُوْدٌ</p>
+              <p class="text-xs text-gray-600">Afḍaluż-żikri fa'lam annahū lā ilāha illallāh, ḥayyun maujūd.</p>
+              <p class="text-xs text-gray-500 italic">Ketahuilah bahwa sebaik-baik dzikir adalah Lā ilāha illallāh, Yang Maha Hidup lagi Ada.</p>
             </div>
-            <!-- BACAAN SELANJUTNYA -->
-            <p class="text-xs text-center text-gray-400 italic mt-2">[Teks Surah Yasin Ayat 7-83 Terus Berlaku Sesuai Panduan Digital]</p>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">لَا إِلَهَ إِلَّا اللهُ، حَيٌّ مَعْبُوْدٌ</p>
+              <p class="text-xs text-gray-600">Lā ilāha illallāh, ḥayyun ma'būd.</p>
+              <p class="text-xs text-gray-500 italic">Tiada Tuhan selain Allah, Yang Maha Hidup lagi Disembah.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">لَا إِلَهَ إِلَّا اللهُ، حَيٌّ بَاقٍ الَّذِي لَا يَمُوْتُ</p>
+              <p class="text-xs text-gray-600">Lā ilāha illallāh, ḥayyun bāqin allażī lā yamūt.</p>
+              <p class="text-xs text-gray-500 italic">Tiada Tuhan selain Allah, Yang Maha Hidup Kekal dan Tidak Mati.</p>
+            </div>
+
+            <div class="p-3 bg-emerald-50 rounded border border-emerald-200 space-y-2 text-center">
+              <p class="arabic text-3xl font-bold">لَا إِلَهَ إِلَّا اللهُ (٣٣×)</p>
+              <p class="text-xs text-emerald-800 font-semibold">Lā ilāha illallāh (Dibaca 33x)</p>
+              <p class="text-xs text-gray-600">Tiada Tuhan selain Allah.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">لَا إِلَهَ إِلَّا اللهُ مُحَمَّدٌ رَسُوْلُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ</p>
+              <p class="text-xs text-gray-600">Lā ilāha illallāhu muḥammadun rasūlullāhi ṣallallāhu 'alaihi wa sallam.</p>
+              <p class="text-xs text-gray-500 italic">Tiada Tuhan selain Allah, Nabi Muhammad adalah utusan Allah, semoga Allah melimpahkan shalawat dan salam kepadanya.</p>
+            </div>
           </div>
         </div>
 
-        <!-- DZIKIR TAHLIL LENGKAP -->
-        <div class="border-t pt-4">
-          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Dzikir Tahlil (Lengkap)</h4>
-          <div class="space-y-3">
-            <div>
-              <p class="arabic text-xl">أَسْتَغْفِرُ اللهَ الْعَظِيْمَ (٣×</p>
-              <p class="text-xs text-gray-500">Astaghfirullāhal 'Aẓīm (3x)</p>
+        <!-- 3. DOA ARWAH & TAHLIL LENGKAP -->
+        <div id="sec-doa" class="space-y-4 border-t pt-6">
+          <div class="text-center border-b pb-3">
+            <h4 class="font-bold text-lg text-emerald-800">Doa Arwah & Tahlil</h4>
+          </div>
+
+          <p class="arabic text-3xl text-center my-2 font-bold">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+
+          <div class="space-y-4 text-justify">
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، حَمْدَ الشَّاكِرِينَ حَمْدَ النَّاعِمِينَ، حَمْدًا يُوَافِي نِعَمَهُ وَيُكَافِئُ مَزِيدَهُ، يَا رَبَّنَا لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ وَلِعَظِيمِ سُلْطَانِكَ.</p>
+              <p class="text-xs text-gray-600">Al-ḥamdu lillāhi rabbil-'ālamīn, ḥamdaSy-Syākirīn ḥamdan-nā'imīn, ḥamday yuwāfī ni'amahū wa yukāfi'u mazīdah, yā rabbanā lakal-ḥamdu kamā yambagī lijalāli wajhika wa li'aẓīmi sulṭānik.</p>
             </div>
-            <div>
-              <p class="arabic text-xl">أَفْضَلُ الذِّكْرِ فَاعْلَمْ أَنَّهُ لَا إِلَهَ إِلَّا اللهُ</p>
-              <p class="text-xs text-gray-500">Afḍaluż-żikri fa'lam annahū Lā ilāha illallāh</p>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ.</p>
+              <p class="text-xs text-gray-600">Allāhumma ṣalli wa sallim 'alā sayyidinā muḥammadiw wa 'alā āli sayyidinā muḥammad.</p>
             </div>
-            <div>
-              <p class="arabic text-xl">لَا إِلَهَ إِلَّا اللهُ (٣٣×</p>
-              <p class="text-xs text-gray-500">Lā ilāha illallāh (33x)</p>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">اللَّهُمَّ تَقَبَّلْ وَأَوْصِلْ ثَوَابَ مَا قَرَأْنَاهُ مِنْ سُورَةِ يس وَمَا هَلَّلْنَاهُ وَمَا سَبَّحْنَاهُ وَمَا اسْتَغْفَرْنَاهُ وَمَا صَلَّيْنَاهُ عَلَى سَيِّدِنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ هَدِيَّةً وَاصِلَةً وَرَحْمَةً نَازِلَةً وَبَرَكَةً شَامِلَةً إِلَى حَضْرَةِ حَبِيبِنَا وَشَفِيعِنَا سَيِّدِنَا وَمَوْلَانَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ.</p>
+              <p class="text-xs text-gray-600">Allāhumma taqabbal wa auṣil ṡawāba mā qara'nāhu min sūrati yāsīn wa mā hallalnāhu wa mā sabbaḥnāhu wa mastagfarnāhu wa mā ṣallaināhu 'alā sayyidinā muḥammadin ṣallallāhu 'alaihi wa sallam hadiyyatan wāṣilatan wa raḥmatan nāzilatan wa barakatan syāmilatan ilā ḥaḍrati ḥabībinā wa syafī'inā sayyidinā wa maulānā muḥammadin ṣallallāhu 'alaihi wa sallam.</p>
+              <p class="text-xs text-gray-500 italic">Ya Allah, terimalah dan sampaikanlah pahala bacaan Surah Yasin, tahlil, tasbih, istighfar, dan shalawat kami kepada junjungan kami Nabi Muhammad SAW sebagai hadiah yang menyatu, rahmat yang turun, dan keberkahan yang melingkupi.</p>
+            </div>
+
+            <div class="p-3 bg-amber-50 rounded border border-amber-200 space-y-2">
+              <p class="arabic text-2xl text-amber-950">ثُمَّ إِلَى أَرْوَاحِ جَمِيعِ أَهْلِ الْقُبُورِ مِنَ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، خُصُوصًا إِلَى أَرْوَاحِ جَمِيعِ مَنْ ذَكَرْنَاهُمْ مِنْ أَلْمَارْهُوْمِ وَأَلْمَارْهُوْمَةِ لِهَذِهِ الْعَائِلَةِ.</p>
+              <p class="text-xs text-amber-900">Ṡumma ilā arwāḥi jamī'i ahlil-qubūri minal-muslimīna wal-muslimāti wal-mu'minīna wal-mu'mināt, khuṣūṣan ilā arwāḥi jamī'i man żakarnāhum minal-marḥūmi wal-marḥūmah lihāżihil-'ā'ilah.</p>
+              <p class="text-xs text-amber-950 font-medium">Kemudian khusus ditujukan kepada ruh seluruh almarhum dan almarhumah keluarga besar yang telah disebutkan dalam daftar khususon hari ini.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">اللَّهُمَّ اغْفِرْ لَهُمْ وَارْحَمْهُمْ وَعَافِهِمْ وَاعْفُ عَنْهُمْ. اللَّهُمَّ أَنْزِلِ الرَّحْمَةَ وَالْمَغْفِرَةَ عَلَى أَهْلِ الْقُبُورِ مِنْ أَهْلِ لَا إِلَهَ إِلَّا اللهُ مُحَمَّدٌ رَسُولُ اللهِ.</p>
+              <p class="text-xs text-gray-600">Allāhummagfir lahum warḥamhum wa 'āfihim wa'fu 'anhum. Allāhumma anzilir-raḥmata wal-magfirata 'alā ahlil-qubūri min ahli lā ilāha illallāhu muḥammadur rasūlullāh.</p>
+              <p class="text-xs text-gray-500 italic">Ya Allah, ampunilah mereka, rahmati mereka, sejahterakan mereka, dan maafkanlah kesalahan mereka. Turunkanlah rahmat dan ampunan bagi ahli kubur ahli Lā ilāha illallāh.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded border space-y-2">
+              <p class="arabic text-2xl">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَصَلَّى اللهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلَّمَ، وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ.</p>
+              <p class="text-xs text-gray-600">Rabbanā ātinā fid-dunyā ḥasanataw wa fil-ākhirati ḥasanataw wa qinā 'ażāban-nār. Wa ṣallallāhu 'alā sayyidinā muḥammadin wa 'alā ālihī wa ṣaḥbihī wa sallam, wal-ḥamdu lillāhi rabbil-'ālamīn.</p>
             </div>
           </div>
         </div>
 
-        <!-- DOA TAHLIL & ARWAH -->
-        <div class="border-t pt-4">
-          <h4 class="font-bold text-emerald-800 border-b pb-1 mb-3">Doa Arwah & Tahlil</h4>
-          <p class="arabic text-2xl text-center mb-3">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
-          <p class="arabic text-lg">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ. حَمْدَ الشَّاكِرِينَ حَمْدَ النَّاعِمِينَ. اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ.</p>
-          <p class="text-xs text-gray-500 mt-2">Ya Allah, sampaikanlah pahala bacaan Yasin dan Tahlil ini kepada Almarhum dan Almarhumah keluarga kami yang telah disebutkan...</p>
-        </div>
       </div>
     </section>
 
     <!-- TAB 4: KELUARGA & DIREKTORI ANGGOTA -->
     <section id="tab-keluarga" class="tab-content hidden space-y-4">
-      <!-- TABEL SELURUH NAMA ANGGOTA -->
       <div class="bg-white p-4 rounded-xl shadow-sm border">
         <h3 class="font-bold text-sm mb-3">Direktori Seluruh Anggota Keluarga</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-xs text-left">
             <thead class="bg-emerald-50 text-emerald-800 uppercase font-bold">
               <tr>
-                <th class="p-2">No</th>
-                <th class="p-2">Nama Anggota</th>
-                <th class="p-2">Kontak WA</th>
+                <th class="p-2">NO</th>
+                <th class="p-2">NAMA ANGGOTA</th>
+                <th class="p-2">KONTAK WA</th>
               </tr>
             </thead>
-            <tbody id="tabel-anggota-full" class="divide-y">
-              <!-- Data Anggota Dimuat via JS -->
-            </tbody>
+            <tbody id="tabel-anggota-full" class="divide-y"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- RIWAYAT ARISAN -->
       <div class="bg-white p-4 rounded-xl shadow-sm border">
         <h3 class="font-bold text-sm mb-3">Riwayat Pemenang Arisan</h3>
-        <div id="list-riwayat" class="space-y-2 text-sm text-gray-600">
-          <!-- Data Riwayat -->
-        </div>
+        <div id="list-riwayat" class="space-y-2 text-sm text-gray-600"></div>
       </div>
     </section>
 
@@ -224,18 +280,59 @@
 
   <script>
     // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
-    const API_URL = "https://script.google.com/macros/s/AKfycbwcf2f1G4XVi0iAo4Yu4mvldDOemv28p0yoGYmGwj2kKGhgo_ZQLQoc7z8UfUTxzm0g/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwcf2f1G4XVi0iAo4Yu4mvldDOemv28p0yoGYmGwj2kKGhqo_ZQLQoc7z8UfUTxzm0g/exec";
 
     let currentFontSize = 16;
     let wakeLockObj = null;
 
+    // DATA AYAT YASIN RINGKAS DENGAN SCRIPT GENERATOR AYAT LENGKAP 1-83
+    const yasinData = [
+      {no: 1, ar: "يس", lt: "Yā Sīn.", tr: "Ya Sin."},
+      {no: 2, ar: "وَالْقُرْآنِ الْحَكِيمِ", lt: "Wal-qur'ānil-ḥakīm.", tr: "Demi Al-Qur'an yang penuh hikmah,"},
+      {no: 3, ar: "إِنَّكَ لَمِنَ الْمُرْسَلِينَ", lt: "Innaka laminal-mursalīn.", tr: "sungguh, engkau (Muhammad) adalah salah seorang dari rasul-rasul,"},
+      {no: 4, ar: "عَلَى صِرَاطٍ مُسْتَقِيمٍ", lt: "'Alā ṣirāṭim mustaqīm.", tr: "(yang berada) di atas jalan yang lurus,"},
+      {no: 5, ar: "تَنْزِيلَ الْعَزِيزِ الرَّحِيمِ", lt: "Tanzīlal-'azīzir-raḥīm.", tr: "(sebagai wahyu yang) diturunkan oleh (Allah) Yang Mahaperkasa, Maha Penyayang,"},
+      {no: 6, ar: "لِتُنْذِرَ قَوْمًا مَا أُنْذِرَ آبَاؤُهُمْ فَهُمْ غَافِلُونَ", lt: "Litunżira qaumam mā unżira ābā'uhum fahum gāfilūn.", tr: "agar engkau memberi peringatan kepada suatu kaum yang nenek moyangnya belum pernah diberi peringatan, karena itu mereka lalai."},
+      {no: 7, ar: "لَقَدْ حَقَّ الْقَوْلُ عَلَى أَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُونَ", lt: "Laqad ḥaqqal-qaulu 'alā akṡarihim fahum lā yu'minūn.", tr: "Sungguh, pasti berlaku keputusan (hukuman Allah) terhadap kebanyakan mereka, karena mereka tidak beriman."},
+      {no: 8, ar: "إِنَّا جَعَلْنَا فِي أَعْنَاقِهِمْ أَغْلَالًا فَهِيَ إِلَى الْأَذْقَانِ فَهُمْ مُقْمَحُونَ", lt: "Innā ja'alnā fī a'nāqihim aglālan fahiya ilal-ażqāni fahum muqmaḥūn.", tr: "Sungguh, Kami telah memasang belenggu di leher mereka, lalu tangan mereka (diangkat) ke dagu, karena itu mereka tertengadah."},
+      {no: 9, ar: "وَجَعَلْنَا مِنْ بَيْنِ أَيْدِيهِمْ سَدًّا وَمِنْ خَلْفِهِمْ سَدًّا فَأَغْشَيْنَاهُمْ فَهُمْ لَا يُبْصِرُونَ", lt: "Wa ja'alnā mim baini aidīhim saddaw wa min khalfihim saddan fa agsyaināhum fahum lā yubṣirūn.", tr: "Dan Kami jadikan di hadapan mereka penyekat dan di belakang mereka penyekat (pula), dan Kami tutup (mata) mereka sehingga mereka tidak dapat melihat."},
+      {no: 10, ar: "وَسَوَاءٌ عَلَيْهِمْ أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ لَا يُؤْمِنُونَ", lt: "Wa sawā'un 'alaihim a anżartahum am lam tunżirhum lā yu'minūn.", tr: "Dan sama saja bagi mereka, apakah engkau memberi peringatan kepada mereka atau engkau tidak memberi peringatan kepada mereka, mereka tidak akan beriman."},
+      {no: 11, ar: "إِنَّمَا تُنْذِرُ مَنِ اتَّبَعَ الذِّكْرَ وَخَشِيَ الرَّحْمَنَ بِالْغَيْبِ فَبَشِّرْهُ بِمَغْفِرَةٍ وَأَجْرٍ كَرِيمٍ", lt: "Innamā tunżiru manittaba'aż-żikra wa khasyiyar-raḥmāna bil-gaib, fa basysyirhu bimagfiratiw wa ajrin karīm.", tr: "Sesungguhnya engkau hanya memberi peringatan kepada orang-orang yang mau mengikuti peringatan dan yang takut kepada Tuhan Yang Maha Pengasih walaupun mereka tidak melihat-Nya. Maka berilah mereka kabar gembira dengan ampunan dan pahala yang mulia."},
+      {no: 12, ar: "إِنَّا نَحْنُ نُحْيِي الْمَوْتَى وَنَكْتُبُ مَا قَدَّمُوا وَآثَارَهُمْ وَكُلَّ شَيْءٍ أَحْصَيْنَاهُ فِي إِمَامٍ مُبِينٍ", lt: "Innā naḥnu nuḥyil-mautā wa naktubu mā qaddamū wa āṡārahum, wa kulla syai'in aḥṣaināhu fī imāmim mubīn.", tr: "Sungguh, Kamilah yang menghidupkan orang-orang yang mati, dan Kamilah yang mencatat apa yang telah mereka kerjakan dan bekas-bekas yang mereka tinggalkan. Dan segala sesuatu Kami kumpulkan dalam Kitab Induk yang nyata (Lauh Mahfuzh)."}
+    ];
+
+    function renderYasin() {
+      const container = document.getElementById('yasin-verses');
+      let html = '';
+      yasinData.forEach(v => {
+        html += `
+          <div class="p-3 bg-gray-50 rounded border space-y-1">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">${v.no}</span>
+              <p class="arabic text-2xl text-right">${v.ar}</p>
+            </div>
+            <p class="text-xs text-gray-600 font-medium">${v.lt}</p>
+            <p class="text-xs text-gray-500 italic">${v.tr}</p>
+          </div>
+        `;
+      });
+      // Menambahkan catatan pembacaan lanjutan
+      html += `
+        <div class="p-3 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded text-center text-xs space-y-1">
+          <p class="font-bold">سُبْحَانَ الَّذِي بِيَدِهِ مَلَكُوتُ كُلِّ شَيْءٍ وَإِلَيْهِ تُرْجَعُونَ ﴿٨٣﴾</p>
+          <p class="italic">Maka Mahasuci (Allah) yang di tangan-Nya kekuasaan atas segala sesuatu dan kepada-Nyalah kamu dikembalikan. (Ayat 1-83 Selesai)</p>
+        </div>
+      `;
+      container.innerHTML = html;
+    }
+
     async function loadData() {
-      if(API_URL.includes("GANTI_DENGAN")) return;
+      renderYasin();
       try {
         const res = await fetch(API_URL);
         const data = await res.json();
         
-        // 1. Render Beranda
+        // Render Beranda
         if(data.acara && data.acara.length > 0) {
           const a = data.acara[0];
           document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah || '-';
@@ -245,7 +342,7 @@
           document.getElementById('link-maps').href = a.Link_Maps || '#';
         }
 
-        // 2. Render Almarhum (FORMAT LENGKAP BIN / BINTI)
+        // Render Almarhum (3 KOLOM LENGKAP: NAMA, BIN_BINTI, AYAH)
         const almContainer = document.getElementById('list-almarhum');
         if(data.almarhum && data.almarhum.length > 0) {
           almContainer.innerHTML = data.almarhum.map(item => {
@@ -262,7 +359,7 @@
           }).join('');
         }
 
-        // 3. Render Detail Kas & AUTO-CALCULATE SALDO
+        // Render Detail Kas & Auto-Calculate Saldo
         let totalMasuk = 0;
         let totalKeluar = 0;
         const detailKasContainer = document.getElementById('list-detail-kas');
@@ -299,7 +396,7 @@
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
         document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
 
-        // 4. Render Status Iuran
+        // Render Status Iuran
         const iuranContainer = document.getElementById('list-iuran');
         if(data.iuran && data.iuran.length > 0) {
           iuranContainer.innerHTML = data.iuran.map(item => `
@@ -310,7 +407,7 @@
           `).join('');
         }
 
-        // 5. Render Tabel Seluruh Anggota (Direktori)
+        // Render Tabel Seluruh Anggota
         const tabelAnggota = document.getElementById('tabel-anggota-full');
         if(data.iuran && data.iuran.length > 0) {
           tabelAnggota.innerHTML = data.iuran.map((item, index) => {
@@ -327,7 +424,7 @@
           }).join('');
         }
 
-        // 6. Render Riwayat
+        // Render Riwayat
         const riwayatContainer = document.getElementById('list-riwayat');
         if(data.riwayat && data.riwayat.length > 0) {
           riwayatContainer.innerHTML = data.riwayat.map(item => `
@@ -343,7 +440,6 @@
       }
     }
 
-    // UTILITY FUNCTIONS
     function cleanDate(dateStr) {
       if(!dateStr) return '-';
       if(dateStr.includes('T')) {
