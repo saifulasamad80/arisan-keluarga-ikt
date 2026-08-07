@@ -317,6 +317,9 @@
     </button>
   </nav>
 
+  <!-- MEMANGGIL DATA BACAAN YASIN LENGKAP -->
+  <script src="bacaan.js"></script>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1KAwN5Yf6RbKh7qWWP-h_SabPdjHaJi7lsxTacd3n8xuH-bJ2eUIYc16z-tNG7boI/exec";
 
@@ -340,8 +343,10 @@
 
     function renderYasin() {
       const container = document.getElementById('yasin-verses');
+      if (!container || typeof YASIN_LENGKAP === 'undefined') return;
+      
       let html = '';
-      yasinData.forEach(v => {
+      YASIN_LENGKAP.forEach(v => {
         html += `
           <div class="p-3 bg-gray-50 rounded border space-y-1">
             <div class="flex justify-between items-start">
@@ -353,12 +358,6 @@
           </div>
         `;
       });
-      html += `
-        <div class="p-3 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded text-center text-xs space-y-1">
-          <p class="font-bold">سُبْحَانَ الَّذِي بِيَدِهِ مَلَكُوتُ كُلِّ شَيْءٍ وَإِلَيْهِ تُرْجَعُونَ ﴿٨٣﴾</p>
-          <p class="italic">Maka Mahasuci (Allah) yang di tangan-Nya kekuasaan atas segala sesuatu dan kepada-Nyalah kamu dikembalikan. (Ayat 1-83 Selesai)</p>
-        </div>
-      `;
       container.innerHTML = html;
     }
 
