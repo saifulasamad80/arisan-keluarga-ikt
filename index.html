@@ -70,15 +70,37 @@
       </div>
     </section>
 
-    <!-- TAB 2: KEUANGAN -->
+    <!-- TAB 2: KEUANGAN (TERHUBUNG 6 KEBUTUHAN BENDAHARA) -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-xs font-semibold text-gray-500 uppercase">Ringkasan Kas (Otomatis)</h3>
-        <div class="mt-2 flex justify-between items-baseline">
-          <span class="text-xs text-gray-500">Sisa Saldo Kas:</span>
+      
+      <!-- 1. KARTU SALDO & BREAKDOWN POS DANA -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ringkasan Saldo Kas</h3>
+        
+        <!-- Saldo Total -->
+        <div class="flex justify-between items-baseline border-b pb-3">
+          <span class="text-xs text-gray-600 font-medium">Total Sisa Saldo (Keseluruhan):</span>
           <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
         </div>
-        <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t text-xs">
+
+        <!-- Break Down Pos Dana (Kas Arisan, Dana Sosial, Tabungan) -->
+        <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+          <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-100">
+            <span class="text-[10px] text-emerald-800 font-bold block">Kas Arisan</span>
+            <span class="text-xs font-extrabold text-emerald-700" id="saldo-kas">Rp 0</span>
+          </div>
+          <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
+            <span class="text-[10px] text-blue-800 font-bold block">Dana Sosial</span>
+            <span class="text-xs font-extrabold text-blue-700" id="saldo-sosial">Rp 0</span>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg border border-purple-100">
+            <span class="text-[10px] text-purple-800 font-bold block">Tabungan</span>
+            <span class="text-xs font-extrabold text-purple-700" id="saldo-tabungan">Rp 0</span>
+          </div>
+        </div>
+
+        <!-- Total Pemasukan vs Pengeluaran -->
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t text-xs">
           <div>
             <span class="text-gray-500 block">Total Pemasukan:</span>
             <span class="font-bold text-emerald-600" id="total-masuk">Rp 0</span>
@@ -88,35 +110,46 @@
             <span class="font-bold text-red-600" id="total-keluar">Rp 0</span>
           </div>
         </div>
-        
-        <button onclick="toggleAccordion('detail-kas-drawer')" class="mt-3 w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
-          <span><i class="fa-solid fa-list-check mr-1"></i> Lihat Detail Transaksi</span>
+
+        <!-- Rincian Transaksi Accordion -->
+        <button onclick="toggleAccordion('detail-kas-drawer')" class="w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
+          <span><i class="fa-solid fa-list-check mr-1"></i> Rincian Pemasukan & Pengeluaran</span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
-        <div id="detail-kas-drawer" class="hidden mt-3 pt-2 border-t text-xs space-y-2">
-          <div class="font-bold text-gray-700">Rincian Transaksi:</div>
+        <div id="detail-kas-drawer" class="hidden mt-2 pt-2 border-t text-xs space-y-2">
           <div id="list-detail-kas" class="space-y-2"></div>
         </div>
       </div>
 
+      <!-- 2. KARTU TUNGGAKAN PEMBAYARAN ARISAN -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xs font-bold text-amber-800 uppercase flex items-center justify-between mb-3">
+          <span><i class="fa-solid fa-clock-rotate-left mr-1"></i> Tunggakan Pembayaran Arisan</span>
+          <span id="badge-total-tunggakan" class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded text-[10px]">0 Anggota</span>
+        </h3>
+        <div id="list-tunggakan" class="space-y-2 text-xs">
+          <p class="text-gray-400 italic">Memuat data tunggakan...</p>
+        </div>
+      </div>
+
+      <!-- 3. STATUS IURAN PERIODE INI -->
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <h3 class="text-xs font-bold text-gray-700 uppercase mb-3">Status Iuran Periode Ini</h3>
+        <div id="list-iuran" class="space-y-2 text-xs"></div>
+      </div>
+
+      <!-- 4. REKENING TRANSFER -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
         <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
         <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
         <p class="text-xs text-gray-500">A/N Suwandi</p>
-        <div class="flex gap-2 pt-2">
+        <div class="flex gap-2 pt-1">
           <button onclick="copyRekening('1210007759008')" class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 rounded font-semibold">
             <i class="fa-regular fa-copy mr-1"></i> Salin Rekening
           </button>
-          <a href="https://wa.me/?text=Halo%20Pengurus,%20saya%20sudah%20transfer%20iuran%20arisan." target="_blank" class="flex-1 bg-green-500 text-white text-xs text-center py-2 rounded font-semibold">
-            <i class="fa-brands fa-whatsapp mr-1"></i> Konfirmasi WA
-          </a>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <h3 class="text-sm font-bold mb-3">Status Iuran Anggota Periode Ini</h3>
-        <div id="list-iuran" class="space-y-2 text-sm"></div>
-      </div>
     </section>
 
     <!-- TAB 3: BUKU DOA DIGITAL -->
@@ -228,13 +261,12 @@
   <script src="bacaan.js"></script>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx1KAwN5Yf6RbKh7qWWP-h_SabPdjHaJi7lsxTacd3n8xuH-bJ2eUIYc16z-tNG7boI/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwcf2f1G4XVi0iAo4Yu4mvldDOemv28p0yoGYmGwj2kKGhqo_ZQLQoc7z8UfUTxzm0g/exec";
 
     let arabicSize = parseFloat(localStorage.getItem('arabicSize')) || 1.5;
     let latinSize = parseFloat(localStorage.getItem('latinSize')) || 0.75;
     let wakeLockObj = null;
 
-    // TERAPKAN PREFERENSI TERSIMPAN
     document.documentElement.style.setProperty('--arabic-size', arabicSize + 'rem');
     document.documentElement.style.setProperty('--latin-size', latinSize + 'rem');
 
@@ -250,7 +282,6 @@
       document.documentElement.style.setProperty('--arabic-size', arabicSize + 'rem');
       document.documentElement.style.setProperty('--latin-size', latinSize + 'rem');
 
-      // SIMPAN KE LOCALSTORAGE
       localStorage.setItem('arabicSize', arabicSize);
       localStorage.setItem('latinSize', latinSize);
     }
@@ -341,7 +372,6 @@
       renderTahlil();
       renderDoa();
 
-      // RESTORE LAST ACTIVE TAB
       const savedTab = localStorage.getItem('activeTab') || 'tab-home';
       const savedSubTab = localStorage.getItem('activeSubTab') || 'subtab-almarhum';
       switchTab(savedTab);
@@ -353,6 +383,7 @@
         const res = await fetch(API_URL);
         const data = await res.json();
         
+        // 1. DATA ACARA
         if(data.acara && data.acara.length > 0) {
           const a = data.acara[0];
           document.getElementById('tuan-rumah').innerText = a.Tuan_Rumah || '-';
@@ -362,6 +393,7 @@
           document.getElementById('link-maps').href = a.Link_Maps || '#';
         }
 
+        // 2. DATA ALMARHUM
         const almContainer = document.getElementById('list-almarhum');
         if(data.almarhum && data.almarhum.length > 0) {
           almContainer.innerHTML = data.almarhum.map(item => {
@@ -378,28 +410,40 @@
           }).join('');
         }
 
+        // 3. LOGIKA DETIL KAS, PEMASUKAN, PENGELUARAN, KAS ARISAN, DANA SOSIAL, TABUNGAN
         let totalMasuk = 0;
         let totalKeluar = 0;
+        let kasArisan = 0;
+        let danaSosial = 0;
+        let tabungan = 0;
+
         const detailKasContainer = document.getElementById('list-detail-kas');
-        
         if(data.detailKas && data.detailKas.length > 0) {
           detailKasContainer.innerHTML = data.detailKas.map(item => {
             let nominalRaw = String(item.Nominal || '0').replace(/[^0-9]/g, '');
             let val = parseInt(nominalRaw, 10) || 0;
             let tipe = String(item.Tipe || '').toLowerCase();
+            let pos = String(item.Pos_Dana || item.Kategori || '').toLowerCase();
 
-            if (tipe.includes('masuk')) {
+            const isMasuk = tipe.includes('masuk') || tipe.includes('pemasukan');
+
+            if (isMasuk) {
               totalMasuk += val;
+              if (pos.includes('sosial')) danaSosial += val;
+              else if (pos.includes('tabungan')) tabungan += val;
+              else kasArisan += val;
             } else {
               totalKeluar += val;
+              if (pos.includes('sosial')) danaSosial -= val;
+              else if (pos.includes('tabungan')) tabungan -= val;
+              else kasArisan -= val;
             }
 
-            const isMasuk = tipe.includes('masuk');
             return `
-              <div class="flex justify-between items-center p-2 bg-gray-50 rounded border">
+              <div class="flex justify-between items-center p-2 bg-gray-50 rounded border text-xs">
                 <div>
                   <div class="font-semibold text-gray-800">${item.Keterangan || '-'}</div>
-                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)}</div>
+                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)} • <span class="uppercase font-bold text-emerald-800">${item.Pos_Dana || 'KAS ARISAN'}</span></div>
                 </div>
                 <div class="font-bold ${isMasuk ? 'text-emerald-600' : 'text-red-600'}">
                   ${isMasuk ? '+' : '-'} Rp ${val.toLocaleString('id-ID')}
@@ -410,20 +454,45 @@
         }
 
         let sisaSaldo = totalMasuk - totalKeluar;
+        document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
         document.getElementById('total-masuk').innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
-        document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
+        
+        // Render 3 Kantong Pos Dana
+        document.getElementById('saldo-kas').innerText = 'Rp ' + kasArisan.toLocaleString('id-ID');
+        document.getElementById('saldo-sosial').innerText = 'Rp ' + danaSosial.toLocaleString('id-ID');
+        document.getElementById('saldo-tabungan').innerText = 'Rp ' + tabungan.toLocaleString('id-ID');
 
+        // 4. LOGIKA STATUS IURAN & TUNGGAKAN
         const iuranContainer = document.getElementById('list-iuran');
+        const tunggakanContainer = document.getElementById('list-tunggakan');
+
         if(data.iuran && data.iuran.length > 0) {
+          // Render Status Iuran
           iuranContainer.innerHTML = data.iuran.map(item => `
             <div class="flex justify-between items-center py-1.5 border-b text-xs">
               <span class="font-medium">${item.Nama_Anggota}</span>
               <span class="px-2 py-0.5 rounded font-bold ${String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
             </div>
           `).join('');
+
+          // Render Daftar Menunggak
+          const menunggakList = data.iuran.filter(item => parseInt(item.Jumlah_Tunggakan || '0', 10) > 0);
+          document.getElementById('badge-total-tunggakan').innerText = menunggakList.length + ' Anggota';
+
+          if (menunggakList.length > 0) {
+            tunggakanContainer.innerHTML = menunggakList.map(item => `
+              <div class="flex justify-between items-center p-2 bg-amber-50 rounded border border-amber-200">
+                <span class="font-semibold text-amber-950">${item.Nama_Anggota}</span>
+                <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold text-[10px]">Tunggakan: ${item.Jumlah_Tunggakan} Bulan</span>
+              </div>
+            `).join('');
+          } else {
+            tunggakanContainer.innerHTML = `<p class="text-emerald-700 font-medium italic">Alhamdulillah, tidak ada tunggakan pembayaran.</p>`;
+          }
         }
 
+        // 5. DIREKTORI ANGGOTA FULL
         const tabelAnggota = document.getElementById('tabel-anggota-full');
         if(data.iuran && data.iuran.length > 0) {
           tabelAnggota.innerHTML = data.iuran.map((item, index) => {
@@ -440,6 +509,7 @@
           }).join('');
         }
 
+        // 6. RIWAYAT ARISAN
         const riwayatContainer = document.getElementById('list-riwayat');
         if(data.riwayat && data.riwayat.length > 0) {
           riwayatContainer.innerHTML = data.riwayat.map(item => `
@@ -451,7 +521,7 @@
         }
 
       } catch (e) {
-        console.error("Gagal memuat data dari Google Sheets", e);
+        console.error("Gagal memuat data dari Google Sheets API", e);
       }
     }
 
@@ -540,7 +610,6 @@
       }
     }
 
-    // REGISTRASI SERVICE WORKER UNTUK FULL OFFLINE PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
