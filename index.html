@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arisan & Buku Doa Digital</title>
   
-  <!-- PWA MANIFEST & THEME COLOR -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#047857">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -69,7 +68,7 @@
         </button>
       </div>
 
-      <!-- KARTU GATEWAY TRANSFER BANK (DI BERANDA) -->
+      <!-- KARTU REKENING DI BERANDA -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
         <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
         <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
@@ -85,44 +84,44 @@
       </div>
     </section>
 
-    <!-- TAB 2: KEUANGAN -->
+    <!-- TAB 2: KEUANGAN (5 POS DANA DENGAN RINCIAN BENDAHARA) -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
       
-      <!-- 1. KARTU SALDO & BREAKDOWN 5 POS DANA -->
+      <!-- KARTU RINGKASAN SALDO -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
-        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ringkasan Saldo Kas</h3>
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ringkasan Kas Organisasi</h3>
         
-        <!-- Saldo Total -->
         <div class="flex justify-between items-baseline border-b pb-3">
-          <span class="text-xs text-gray-600 font-medium">Total Sisa Saldo (Keseluruhan):</span>
+          <span class="text-xs text-gray-600 font-medium">Total Kas Mengendap:</span>
           <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
         </div>
 
-        <!-- Breakdown 5 Pos Dana -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 pt-1 text-center">
-          <div class="bg-amber-50 p-2 rounded-lg border border-amber-100">
-            <span class="text-[10px] text-amber-800 font-bold block">Iuran Arisan</span>
-            <span class="text-xs font-extrabold text-amber-700" id="saldo-arisan">Rp 0</span>
-          </div>
+        <!-- GRID 5 POS DANA -->
+        <div class="grid grid-cols-2 gap-2 text-center pt-1">
           <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-100">
-            <span class="text-[10px] text-emerald-800 font-bold block">Iuran Wajib</span>
+            <span class="text-[10px] text-emerald-800 font-bold block">1. Iuran Wajib</span>
             <span class="text-xs font-extrabold text-emerald-700" id="saldo-wajib">Rp 0</span>
           </div>
           <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
-            <span class="text-[10px] text-blue-800 font-bold block">Dana Sosial</span>
+            <span class="text-[10px] text-blue-800 font-bold block">2. Dana Sosial</span>
             <span class="text-xs font-extrabold text-blue-700" id="saldo-sosial">Rp 0</span>
           </div>
-          <div class="bg-orange-50 p-2 rounded-lg border border-orange-100">
-            <span class="text-[10px] text-orange-800 font-bold block">Konsumsi</span>
-            <span class="text-xs font-extrabold text-orange-700" id="saldo-konsumsi">Rp 0</span>
+          <div class="bg-purple-50 p-2 rounded-lg border border-purple-100">
+            <span class="text-[10px] text-purple-800 font-bold block">3. Tabungan Kaos</span>
+            <span class="text-xs font-extrabold text-purple-700" id="saldo-kaos">Rp 0</span>
           </div>
-          <div class="bg-purple-50 p-2 rounded-lg border border-purple-100 col-span-2 sm:col-span-1">
-            <span class="text-[10px] text-purple-800 font-bold block">Tabungan Tour</span>
-            <span class="text-xs font-extrabold text-purple-700" id="saldo-tour">Rp 0</span>
+          <div class="bg-amber-50 p-2 rounded-lg border border-amber-100">
+            <span class="text-[10px] text-amber-800 font-bold block">4. Konsumsi (Transit)</span>
+            <span class="text-xs font-extrabold text-amber-700" id="saldo-konsumsi">Rp 0</span>
           </div>
         </div>
 
-        <!-- Total Pemasukan vs Pengeluaran -->
+        <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 text-center">
+          <span class="text-[10px] text-gray-600 font-bold block">5. Uang Arisan Pemenang (Transit)</span>
+          <span class="text-xs font-extrabold text-gray-800" id="saldo-arisan">Rp 0</span>
+        </div>
+
+        <!-- TOTAL MASUK VS KELUAR -->
         <div class="grid grid-cols-2 gap-2 pt-2 border-t text-xs">
           <div>
             <span class="text-gray-500 block">Total Pemasukan:</span>
@@ -134,9 +133,9 @@
           </div>
         </div>
 
-        <!-- Rincian Transaksi Accordion -->
+        <!-- ACCORDION DETAIL TRANSAKSI -->
         <button onclick="toggleAccordion('detail-kas-drawer')" class="w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
-          <span><i class="fa-solid fa-list-check mr-1"></i> Rincian Pemasukan & Pengeluaran</span>
+          <span><i class="fa-solid fa-list-check mr-1"></i> Rincian Buku Kas (Masuk & Keluar)</span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
         <div id="detail-kas-drawer" class="hidden mt-2 pt-2 border-t text-xs space-y-2">
@@ -144,10 +143,10 @@
         </div>
       </div>
 
-      <!-- 2. KARTU TUNGGAKAN PEMBAYARAN ARISAN -->
+      <!-- KARTU TUNGGAKAN PEMBAYARAN -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xs font-bold text-amber-800 uppercase flex items-center justify-between mb-3">
-          <span><i class="fa-solid fa-clock-rotate-left mr-1"></i> Tunggakan Pembayaran Arisan</span>
+          <span><i class="fa-solid fa-clock-rotate-left mr-1"></i> Tunggakan Pembayaran</span>
           <span id="badge-total-tunggakan" class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded text-[10px]">0 Anggota</span>
         </h3>
         <div id="list-tunggakan" class="space-y-2 text-xs">
@@ -155,25 +154,10 @@
         </div>
       </div>
 
-      <!-- 3. STATUS IURAN PERIODE INI -->
+      <!-- STATUS IURAN PERIODE INI (PEMASANGAN TIPE ANGGOTA) -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xs font-bold text-gray-700 uppercase mb-3">Status Iuran Periode Ini</h3>
         <div id="list-iuran" class="space-y-2 text-xs"></div>
-      </div>
-
-      <!-- 4. REKENING TRANSFER & KONFIRMASI WA (PADA TAB KEUANGAN) -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
-        <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
-        <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
-        <p class="text-xs text-gray-500">A/N Suwandi</p>
-        <div class="flex gap-2 pt-2">
-          <button onclick="copyRekening('1210007759008')" class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 rounded font-semibold">
-            <i class="fa-regular fa-copy mr-1"></i> Salin Rekening
-          </button>
-          <a href="https://wa.me/?text=Halo%20Pengurus,%20saya%20sudah%20transfer%20iuran%20arisan." target="_blank" class="flex-1 bg-green-500 text-white text-xs text-center py-2 rounded font-semibold flex items-center justify-center">
-            <i class="fa-brands fa-whatsapp mr-1"></i> Konfirmasi WA
-          </a>
-        </div>
       </div>
 
     </section>
@@ -252,6 +236,7 @@
               <tr>
                 <th class="p-2">NO</th>
                 <th class="p-2">NAMA ANGGOTA</th>
+                <th class="p-2">TIPE</th>
                 <th class="p-2">KONTAK WA</th>
               </tr>
             </thead>
@@ -436,14 +421,14 @@
           }).join('');
         }
 
-        // 3. LOGIKA DETIL KAS & 5 POS DANA
+        // 3. LOGIKA DETIL KAS 5 POS DANA (SESUAI CATATAN BENDAHARA)
         let totalMasuk = 0;
         let totalKeluar = 0;
-        let danaArisan = 0;
-        let danaWajib = 0;
-        let danaSosial = 0;
-        let danaKonsumsi = 0;
-        let danaTour = 0;
+        let posWajib = 0;
+        let posSosial = 0;
+        let posKaos = 0;
+        let posKonsumsi = 0;
+        let posArisan = 0;
 
         const detailKasContainer = document.getElementById('list-detail-kas');
         if(data.detailKas && data.detailKas.length > 0) {
@@ -457,27 +442,25 @@
 
             if (isMasuk) {
               totalMasuk += val;
-              if (pos.includes('arisan')) danaArisan += val;
-              else if (pos.includes('wajib')) danaWajib += val;
-              else if (pos.includes('sosial')) danaSosial += val;
-              else if (pos.includes('konsumsi')) danaKonsumsi += val;
-              else if (pos.includes('tour') || pos.includes('tabungan')) danaTour += val;
-              else danaWajib += val;
+              if (pos.includes('wajib')) posWajib += val;
+              else if (pos.includes('sosial')) posSosial += val;
+              else if (pos.includes('kaos') || pos.includes('tabungan')) posKaos += val;
+              else if (pos.includes('konsumsi')) posKonsumsi += val;
+              else posArisan += val;
             } else {
               totalKeluar += val;
-              if (pos.includes('arisan')) danaArisan -= val;
-              else if (pos.includes('wajib')) danaWajib -= val;
-              else if (pos.includes('sosial')) danaSosial -= val;
-              else if (pos.includes('konsumsi')) danaKonsumsi -= val;
-              else if (pos.includes('tour') || pos.includes('tabungan')) danaTour -= val;
-              else danaWajib -= val;
+              if (pos.includes('wajib')) posWajib -= val;
+              else if (pos.includes('sosial')) posSosial -= val;
+              else if (pos.includes('kaos') || pos.includes('tabungan')) posKaos -= val;
+              else if (pos.includes('konsumsi')) posKonsumsi -= val;
+              else posArisan -= val;
             }
 
             return `
               <div class="flex justify-between items-center p-2 bg-gray-50 rounded border text-xs">
                 <div>
                   <div class="font-semibold text-gray-800">${item.Keterangan || '-'}</div>
-                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)} • <span class="uppercase font-bold text-emerald-800">${item.Pos_Dana || 'UMUM'}</span></div>
+                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)} • <span class="uppercase font-bold text-emerald-800">${item.Pos_Dana || 'KAS'}</span></div>
                 </div>
                 <div class="font-bold ${isMasuk ? 'text-emerald-600' : 'text-red-600'}">
                   ${isMasuk ? '+' : '-'} Rp ${val.toLocaleString('id-ID')}
@@ -487,42 +470,62 @@
           }).join('');
         }
 
-        let sisaSaldo = totalMasuk - totalKeluar;
-        document.getElementById('sisa-saldo').innerText = 'Rp ' + sisaSaldo.toLocaleString('id-ID');
+        // Saldo Mengendap Riil Organisasi = Wajib + Sosial + Kaos
+        let saldoRiilOrganisasi = posWajib + posSosial + posKaos + posKonsumsi + posArisan;
+        document.getElementById('sisa-saldo').innerText = 'Rp ' + saldoRiilOrganisasi.toLocaleString('id-ID');
         document.getElementById('total-masuk').innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
         
         // Render 5 Kantong Pos Dana
-        document.getElementById('saldo-arisan').innerText = 'Rp ' + danaArisan.toLocaleString('id-ID');
-        document.getElementById('saldo-wajib').innerText = 'Rp ' + danaWajib.toLocaleString('id-ID');
-        document.getElementById('saldo-sosial').innerText = 'Rp ' + danaSosial.toLocaleString('id-ID');
-        document.getElementById('saldo-konsumsi').innerText = 'Rp ' + danaKonsumsi.toLocaleString('id-ID');
-        document.getElementById('saldo-tour').innerText = 'Rp ' + danaTour.toLocaleString('id-ID');
+        document.getElementById('saldo-wajib').innerText = 'Rp ' + posWajib.toLocaleString('id-ID');
+        document.getElementById('saldo-sosial').innerText = 'Rp ' + posSosial.toLocaleString('id-ID');
+        document.getElementById('saldo-kaos').innerText = 'Rp ' + posKaos.toLocaleString('id-ID');
+        document.getElementById('saldo-konsumsi').innerText = 'Rp ' + posKonsumsi.toLocaleString('id-ID');
+        document.getElementById('saldo-arisan').innerText = 'Rp ' + posArisan.toLocaleString('id-ID');
 
-        // 4. LOGIKA STATUS IURAN & TUNGGAKAN
+        // 4. LOGIKA STATUS IURAN DENGAN PEMBEDAAN TIPE ANGGOTA
         const iuranContainer = document.getElementById('list-iuran');
         const tunggakanContainer = document.getElementById('list-tunggakan');
 
         if(data.iuran && data.iuran.length > 0) {
           // Render Status Iuran
-          iuranContainer.innerHTML = data.iuran.map(item => `
-            <div class="flex justify-between items-center py-1.5 border-b text-xs">
-              <span class="font-medium">${item.Nama_Anggota}</span>
-              <span class="px-2 py-0.5 rounded font-bold ${String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
-            </div>
-          `).join('');
+          iuranContainer.innerHTML = data.iuran.map(item => {
+            const isArisan = String(item.Tipe_Anggota || '').toLowerCase().includes('non') ? false : true;
+            const nominalIuran = isArisan ? 'Rp 240.000' : 'Rp 100.000';
+            const statusLunas = String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS';
+
+            return `
+              <div class="flex justify-between items-center py-1.5 border-b text-xs">
+                <div>
+                  <span class="font-semibold text-gray-800 block">${item.Nama_Anggota}</span>
+                  <span class="text-[10px] text-gray-400 font-medium">${isArisan ? 'Peserta Arisan' : 'Non-Arisan'} (${nominalIuran})</span>
+                </div>
+                <span class="px-2 py-0.5 rounded font-bold ${statusLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+              </div>
+            `;
+          }).join('');
 
           // Render Daftar Menunggak
           const menunggakList = data.iuran.filter(item => parseInt(item.Jumlah_Tunggakan || '0', 10) > 0);
           document.getElementById('badge-total-tunggakan').innerText = menunggakList.length + ' Anggota';
 
           if (menunggakList.length > 0) {
-            tunggakanContainer.innerHTML = menunggakList.map(item => `
-              <div class="flex justify-between items-center p-2 bg-amber-50 rounded border border-amber-200">
-                <span class="font-semibold text-amber-950">${item.Nama_Anggota}</span>
-                <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold text-[10px]">Tunggakan: ${item.Jumlah_Tunggakan} Bulan</span>
-              </div>
-            `).join('');
+            tunggakanContainer.innerHTML = menunggakList.map(item => {
+              const isArisan = String(item.Tipe_Anggota || '').toLowerCase().includes('non') ? false : true;
+              const tarifPerBulan = isArisan ? 120000 : 50000;
+              const bulanTunggak = parseInt(item.Jumlah_Tunggakan || '0', 10);
+              const totalNominalTunggak = (bulanTunggak * tarifPerBulan).toLocaleString('id-ID');
+
+              return `
+                <div class="flex justify-between items-center p-2 bg-amber-50 rounded border border-amber-200">
+                  <div>
+                    <span class="font-semibold text-amber-950 block">${item.Nama_Anggota}</span>
+                    <span class="text-[10px] text-amber-700 font-medium">Estimasi Rp ${totalNominalTunggak}</span>
+                  </div>
+                  <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold text-[10px]">${bulanTunggak} Bulan</span>
+                </div>
+              `;
+            }).join('');
           } else {
             tunggakanContainer.innerHTML = `<p class="text-emerald-700 font-medium italic">Alhamdulillah, tidak ada tunggakan pembayaran.</p>`;
           }
@@ -533,10 +536,12 @@
         if(data.iuran && data.iuran.length > 0) {
           tabelAnggota.innerHTML = data.iuran.map((item, index) => {
             let cleanHp = formatNoWA(item.No_HP);
+            const isArisan = String(item.Tipe_Anggota || '').toLowerCase().includes('non') ? 'Non-Arisan' : 'Arisan';
             return `
               <tr class="hover:bg-gray-50">
                 <td class="p-2 font-mono text-gray-400">${index + 1}</td>
                 <td class="p-2 font-semibold text-gray-800">${item.Nama_Anggota}</td>
+                <td class="p-2 text-[10px]"><span class="px-1.5 py-0.5 rounded font-bold ${isArisan === 'Arisan' ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-600'}">${isArisan}</span></td>
                 <td class="p-2">
                   ${cleanHp ? `<a href="https://wa.me/${cleanHp}" target="_blank" class="text-green-600 font-medium hover:underline"><i class="fa-brands fa-whatsapp mr-1"></i>${item.No_HP}</a>` : '-'}
                 </td>
