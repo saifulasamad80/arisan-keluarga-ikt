@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arisan & Buku Doa Digital</title>
   
+  <!-- PWA MANIFEST & THEME COLOR -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#047857">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +26,7 @@
     .latin-text { font-size: var(--latin-size); }
     
     @media print {
-      header, nav, .no-print, #btn-wakelock, .subtab-bar { display: none !important; }
+      header, nav, .no-print, #btn-wakelock, .subtab-bar, #pwa-install-banner { display: none !important; }
       body { background: white !important; color: black !important; padding-bottom: 0 !important; }
       main { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
       .tab-content { display: block !important; }
@@ -296,6 +297,25 @@
 
   </main>
 
+  <!-- BANNER PROMPT INSTAL PWA OTOMATIS -->
+  <div id="pwa-install-banner" class="fixed bottom-20 left-4 right-4 bg-slate-900 text-white p-3.5 rounded-xl shadow-2xl border border-emerald-500 z-50 hidden max-w-xl mx-auto no-print">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-mobile-screen-button text-2xl text-emerald-400"></i>
+        <div>
+          <h4 class="font-bold text-xs">Pasang ke Layar Utama HP</h4>
+          <p class="text-[10px] text-gray-300">Buka aplikasi lebih cepat seperti Play Store</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="document.getElementById('pwa-install-banner').classList.add('hidden')" class="text-gray-400 text-xs px-2 py-1">Nanti</button>
+        <button id="btn-pwa-install" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-2 rounded-lg font-bold shadow active:scale-95 transition">
+          Instal
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- BOTTOM NAVIGATION BAR -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-50 max-w-xl mx-auto no-print">
     <button onclick="switchTab('tab-home')" class="nav-btn text-emerald-700 flex flex-col items-center text-xs font-semibold" id="btn-tab-home">
@@ -527,7 +547,7 @@
         document.getElementById('saldo-konsumsi').innerText = 'Rp ' + posKonsumsi.toLocaleString('id-ID');
         document.getElementById('saldo-arisan').innerText = 'Rp ' + posArisan.toLocaleString('id-ID');
 
-        // 4. LOGIKA STATUS IURAN + TOMBOL BATAL LUNAS (UNDO)
+        // 4. LOGIKA STATUS IURAN + TOMBOL BATAL LUNAS
         const iuranContainer = document.getElementById('list-iuran');
         const tunggakanContainer = document.getElementById('list-tunggakan');
 
@@ -704,7 +724,7 @@
       });
     }
 
-    // PENGIRIM DATA DENGAN ANTI DOUBLE-CLICK OVERLAY
+    // PENGIRIM DATA DENGAN OVERLAY LOADING
     async function sendDataToApi(payload) {
       showLoading(true);
       try {
@@ -815,6 +835,7 @@
       }
     }
 
+    // SERVICE WORKER & LOGIKA PROMPT INSTALASI PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -822,6 +843,35 @@
           .catch(err => console.error('Gagal Registrasi SW:', err));
       });
     }
+
+    let deferredPrompt;
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    const btnPwaInstall = document.getElementById('btn-pwa-install');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (pwaBanner) pwaBanner.classList.remove('hidden');
+    });
+
+    if (btnPwaInstall) {
+      btnPwaInstall.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            console.log('User menyetujui instalasi PWA');
+          }
+          deferredPrompt = null;
+          if (pwaBanner) pwaBanner.classList.add('hidden');
+        }
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      if (pwaBanner) pwaBanner.classList.add('hidden');
+      deferredPrompt = null;
+    });
 
     loadData();
   </script>
