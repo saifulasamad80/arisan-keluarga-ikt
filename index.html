@@ -88,7 +88,7 @@
     <!-- TAB 2: KEUANGAN -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
       
-      <!-- 1. KARTU SALDO & BREAKDOWN POS DANA -->
+      <!-- 1. KARTU SALDO & BREAKDOWN 5 POS DANA -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
         <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ringkasan Saldo Kas</h3>
         
@@ -98,19 +98,27 @@
           <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
         </div>
 
-        <!-- Break Down Pos Dana -->
-        <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+        <!-- Breakdown 5 Pos Dana -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 pt-1 text-center">
+          <div class="bg-amber-50 p-2 rounded-lg border border-amber-100">
+            <span class="text-[10px] text-amber-800 font-bold block">Iuran Arisan</span>
+            <span class="text-xs font-extrabold text-amber-700" id="saldo-arisan">Rp 0</span>
+          </div>
           <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-100">
-            <span class="text-[10px] text-emerald-800 font-bold block">Kas Arisan</span>
-            <span class="text-xs font-extrabold text-emerald-700" id="saldo-kas">Rp 0</span>
+            <span class="text-[10px] text-emerald-800 font-bold block">Iuran Wajib</span>
+            <span class="text-xs font-extrabold text-emerald-700" id="saldo-wajib">Rp 0</span>
           </div>
           <div class="bg-blue-50 p-2 rounded-lg border border-blue-100">
             <span class="text-[10px] text-blue-800 font-bold block">Dana Sosial</span>
             <span class="text-xs font-extrabold text-blue-700" id="saldo-sosial">Rp 0</span>
           </div>
-          <div class="bg-purple-50 p-2 rounded-lg border border-purple-100">
-            <span class="text-[10px] text-purple-800 font-bold block">Tabungan</span>
-            <span class="text-xs font-extrabold text-purple-700" id="saldo-tabungan">Rp 0</span>
+          <div class="bg-orange-50 p-2 rounded-lg border border-orange-100">
+            <span class="text-[10px] text-orange-800 font-bold block">Konsumsi</span>
+            <span class="text-xs font-extrabold text-orange-700" id="saldo-konsumsi">Rp 0</span>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg border border-purple-100 col-span-2 sm:col-span-1">
+            <span class="text-[10px] text-purple-800 font-bold block">Tabungan Tour</span>
+            <span class="text-xs font-extrabold text-purple-700" id="saldo-tour">Rp 0</span>
           </div>
         </div>
 
@@ -428,12 +436,14 @@
           }).join('');
         }
 
-        // 3. LOGIKA DETIL KAS, PEMASUKAN, PENGELUARAN, KAS ARISAN, DANA SOSIAL, TABUNGAN
+        // 3. LOGIKA DETIL KAS & 5 POS DANA
         let totalMasuk = 0;
         let totalKeluar = 0;
-        let kasArisan = 0;
+        let danaArisan = 0;
+        let danaWajib = 0;
         let danaSosial = 0;
-        let tabungan = 0;
+        let danaKonsumsi = 0;
+        let danaTour = 0;
 
         const detailKasContainer = document.getElementById('list-detail-kas');
         if(data.detailKas && data.detailKas.length > 0) {
@@ -447,21 +457,27 @@
 
             if (isMasuk) {
               totalMasuk += val;
-              if (pos.includes('sosial')) danaSosial += val;
-              else if (pos.includes('tabungan')) tabungan += val;
-              else kasArisan += val;
+              if (pos.includes('arisan')) danaArisan += val;
+              else if (pos.includes('wajib')) danaWajib += val;
+              else if (pos.includes('sosial')) danaSosial += val;
+              else if (pos.includes('konsumsi')) danaKonsumsi += val;
+              else if (pos.includes('tour') || pos.includes('tabungan')) danaTour += val;
+              else danaWajib += val;
             } else {
               totalKeluar += val;
-              if (pos.includes('sosial')) danaSosial -= val;
-              else if (pos.includes('tabungan')) tabungan -= val;
-              else kasArisan -= val;
+              if (pos.includes('arisan')) danaArisan -= val;
+              else if (pos.includes('wajib')) danaWajib -= val;
+              else if (pos.includes('sosial')) danaSosial -= val;
+              else if (pos.includes('konsumsi')) danaKonsumsi -= val;
+              else if (pos.includes('tour') || pos.includes('tabungan')) danaTour -= val;
+              else danaWajib -= val;
             }
 
             return `
               <div class="flex justify-between items-center p-2 bg-gray-50 rounded border text-xs">
                 <div>
                   <div class="font-semibold text-gray-800">${item.Keterangan || '-'}</div>
-                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)} • <span class="uppercase font-bold text-emerald-800">${item.Pos_Dana || 'KAS ARISAN'}</span></div>
+                  <div class="text-[10px] text-gray-400">${cleanDate(item.Tanggal)} • <span class="uppercase font-bold text-emerald-800">${item.Pos_Dana || 'UMUM'}</span></div>
                 </div>
                 <div class="font-bold ${isMasuk ? 'text-emerald-600' : 'text-red-600'}">
                   ${isMasuk ? '+' : '-'} Rp ${val.toLocaleString('id-ID')}
@@ -476,10 +492,12 @@
         document.getElementById('total-masuk').innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
         
-        // Render 3 Kantong Pos Dana
-        document.getElementById('saldo-kas').innerText = 'Rp ' + kasArisan.toLocaleString('id-ID');
+        // Render 5 Kantong Pos Dana
+        document.getElementById('saldo-arisan').innerText = 'Rp ' + danaArisan.toLocaleString('id-ID');
+        document.getElementById('saldo-wajib').innerText = 'Rp ' + danaWajib.toLocaleString('id-ID');
         document.getElementById('saldo-sosial').innerText = 'Rp ' + danaSosial.toLocaleString('id-ID');
-        document.getElementById('saldo-tabungan').innerText = 'Rp ' + tabungan.toLocaleString('id-ID');
+        document.getElementById('saldo-konsumsi').innerText = 'Rp ' + danaKonsumsi.toLocaleString('id-ID');
+        document.getElementById('saldo-tour').innerText = 'Rp ' + danaTour.toLocaleString('id-ID');
 
         // 4. LOGIKA STATUS IURAN & TUNGGAKAN
         const iuranContainer = document.getElementById('list-iuran');
