@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arisan & Buku Doa Digital</title>
   
-  <!-- PWA MANIFEST & THEME COLOR -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#047857">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -37,14 +36,21 @@
 </head>
 <body class="bg-gray-100 pb-24 text-gray-800">
 
-  <!-- HEADER GLOBAL DENGAN TOMBOL PENGATUR UKURAN HURUF A- / A+ -->
+  <!-- OVERLAY LOADING ANTI DOUBLE-CLICK -->
+  <div id="loading-overlay" class="fixed inset-0 bg-black/60 z-[100] hidden flex flex-col items-center justify-center text-white space-y-3">
+    <i class="fa-solid fa-spinner fa-spin text-4xl text-emerald-400"></i>
+    <p class="font-bold text-sm tracking-wide" id="loading-text">Sedang memproses ke server...</p>
+    <span class="text-xs text-gray-300">Mohon tunggu, jangan tutup aplikasi</span>
+  </div>
+
+  <!-- HEADER GLOBAL DENGAN TOMBOL A- / A+ -->
   <header class="bg-emerald-700 text-white p-3 sticky top-0 z-50 shadow-md flex justify-between items-center max-w-xl mx-auto">
     <div>
       <h1 class="font-bold text-base leading-tight">Arisan & Buku Doa</h1>
       <span class="text-[10px] bg-emerald-800 px-1.5 py-0.5 rounded text-emerald-100" id="live-date">IKT 2026</span>
     </div>
 
-    <!-- TOMBOL A- / A+ GLOBAL (RAMAH LANSIA) -->
+    <!-- TOMBOL A- / A+ GLOBAL -->
     <div class="flex items-center gap-1 bg-emerald-800/90 p-1 rounded-lg border border-emerald-600/50">
       <span class="text-[10px] text-emerald-200 font-medium px-1"><i class="fa-solid fa-text-height"></i></span>
       <button onclick="changeGlobalFontSize(-1)" class="px-2.5 py-1 bg-emerald-900 hover:bg-emerald-950 active:bg-black text-white font-black text-xs rounded border border-emerald-700 active:scale-95 transition" title="Kecilkan Huruf">A-</button>
@@ -78,7 +84,7 @@
         </button>
       </div>
 
-      <!-- KARTU REKENING DI BERANDA -->
+      <!-- KARTU REKENING -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-2">
         <h3 class="text-xs font-semibold text-gray-500">Gateway Transfer Bank</h3>
         <p class="text-sm font-bold">BANK MANDIRI: <span class="font-mono text-emerald-700">1210007759008</span></p>
@@ -97,7 +103,7 @@
     <!-- TAB 2: KEUANGAN -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
       
-      <!-- PANEL AKSES BENDAHARA (PIN PROTECTED) -->
+      <!-- PANEL AKSES BENDAHARA -->
       <div class="bg-slate-900 text-white p-4 rounded-xl shadow-md space-y-3">
         <div class="flex justify-between items-center">
           <h3 class="text-xs font-bold uppercase text-emerald-400 flex items-center gap-1">
@@ -105,20 +111,24 @@
           </h3>
           <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PIN Active</span>
         </div>
-        <p class="text-xs text-slate-300">Input cepat transaksi pengeluaran acara tanpa buka spreadsheet.</p>
         
+        <!-- TOMBOL BATCH EKSEKUSI ACARA -->
+        <button onclick="quickEksekusiAcara()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs py-3 px-3 rounded-lg font-black text-center shadow border border-emerald-500 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-circle-check text-base"></i> 🏁 Selesaikan & Eksekusi Acara Hari Ini (Arisan + Konsumsi)
+        </button>
+
         <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="quickPengeluaran('Iuran Arisan', 'Penyerahan Uang Arisan (2 Pemenang)', 3220000)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs py-2.5 px-3 rounded-lg font-bold text-left">
-            <i class="fa-solid fa-trophy mr-1"></i> Serahkan Arisan<br>
-            <span class="text-[10px] font-normal opacity-80">Rp 3.220.000</span>
+          <button onclick="quickPengeluaran('Iuran Arisan', 'Penyerahan Uang Arisan (2 Pemenang)', 3220000)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] py-2 px-2.5 rounded font-bold text-left border border-slate-700">
+            <i class="fa-solid fa-trophy mr-1 text-emerald-400"></i> Serahkan Arisan Saja<br>
+            <span class="text-[9px] font-normal opacity-70">Rp 3.220.000</span>
           </button>
-          <button onclick="quickPengeluaran('Konsumsi', 'Uang Konsumsi Tuan Rumah', 900000)" class="bg-amber-600 hover:bg-amber-500 text-white text-xs py-2.5 px-3 rounded-lg font-bold text-left">
-            <i class="fa-solid fa-utensils mr-1"></i> Serahkan Konsumsi<br>
-            <span class="text-[10px] font-normal opacity-80">Rp 900.000</span>
+          <button onclick="quickPengeluaran('Konsumsi', 'Uang Konsumsi Tuan Rumah', 900000)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] py-2 px-2.5 rounded font-bold text-left border border-slate-700">
+            <i class="fa-solid fa-utensils mr-1 text-amber-400"></i> Serahkan Konsumsi Saja<br>
+            <span class="text-[9px] font-normal opacity-70">Rp 900.000</span>
           </button>
         </div>
 
-        <button onclick="openCustomPengeluaranModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2.5 rounded-lg font-semibold border border-slate-700">
+        <button onclick="openCustomPengeluaranModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 rounded-lg font-semibold border border-slate-700">
           <i class="fa-solid fa-minus-circle mr-1 text-red-400"></i> Input Pengeluaran Lainnya...
         </button>
       </div>
@@ -307,7 +317,7 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1KAwN5Yf6RbKh7qWWP-h_SabPdjHaJi7lsxTacd3n8xuH-bJ2eUIYc16z-tNG7boI/exec";
 
-    // 1. PENGATUR UKURAN HURUF GLOBAL (A- / A+)
+    // 1. PENGATUR UKURAN HURUF GLOBAL
     let globalFontSize = parseFloat(localStorage.getItem('globalFontSize')) || 16;
     document.documentElement.style.fontSize = globalFontSize + 'px';
 
@@ -319,7 +329,7 @@
       localStorage.setItem('globalFontSize', globalFontSize);
     }
 
-    // 2. PENGATUR UKURAN KHUSUS KHAT ARAB
+    // 2. PENGATUR KHAT ARAB
     let arabicSize = parseFloat(localStorage.getItem('arabicSize')) || 1.5;
     document.documentElement.style.setProperty('--arabic-size', arabicSize + 'rem');
 
@@ -517,7 +527,7 @@
         document.getElementById('saldo-konsumsi').innerText = 'Rp ' + posKonsumsi.toLocaleString('id-ID');
         document.getElementById('saldo-arisan').innerText = 'Rp ' + posArisan.toLocaleString('id-ID');
 
-        // 4. LOGIKA STATUS IURAN
+        // 4. LOGIKA STATUS IURAN + TOMBOL BATAL LUNAS (UNDO)
         const iuranContainer = document.getElementById('list-iuran');
         const tunggakanContainer = document.getElementById('list-tunggakan');
 
@@ -539,7 +549,11 @@
                     <button onclick="promptSetLunas('${item.Nama_Anggota}')" class="bg-emerald-800 hover:bg-emerald-900 text-white text-xs px-3 py-2 rounded-lg font-black shadow">
                       Set Lunas
                     </button>
-                  ` : ''}
+                  ` : `
+                    <button onclick="promptBatalLunas('${item.Nama_Anggota}')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[10px] px-2 py-1 rounded font-bold border border-slate-300" title="Pembatalan jika salah klik">
+                      <i class="fa-solid fa-rotate-left mr-1"></i>Batal
+                    </button>
+                  `}
                 </div>
               </div>
             `;
@@ -605,17 +619,14 @@
       }
     }
 
-    // HANDLER AKSI BENDAHARA VIA PIN (DENGAN KONFIRMASI NAMA ANTI-SALAH KLIK)
+    // HANDLER AKSI BENDAHARA VIA PIN
     async function promptSetLunas(nama) {
-      // Step 1: Pop-up Konfirmasi Nama
       const yakin = confirm(`KONFIRMASI PELUNASAN:\n\nApakah Anda YAKIN hendak melunasi iuran atas nama:\n👉 ${nama.toUpperCase()} ?\n\nKlik OK jika benar, Klik Cancel jika salah klik.`);
       if (!yakin) return;
 
-      // Step 2: Input PIN Bendahara
       const pin = prompt(`Akses Bendahara\nMasukkan PIN 4-digit untuk pelunasan ${nama}:`);
       if (!pin) return;
 
-      // Step 3: Input Periode
       const periode = prompt(`Berapa periode dibayar oleh ${nama}?`, "1");
       if (!periode) return;
 
@@ -623,6 +634,37 @@
         action: "setLunas",
         nama: nama,
         jumlahPeriode: periode,
+        pin: pin
+      });
+    }
+
+    async function promptBatalLunas(nama) {
+      const yakin = confirm(`BATALKAN PELUNASAN:\n\nApakah Anda YAKIN hendak mengembalikan status ${nama.toUpperCase()} menjadi BELUM LUNAS?`);
+      if (!yakin) return;
+
+      const pin = prompt(`Akses Bendahara\nMasukkan PIN 4-digit untuk membatalkan ${nama}:`);
+      if (!pin) return;
+
+      const periode = prompt(`Berapa periode yang dibatalkan untuk ${nama}?`, "1");
+      if (!periode) return;
+
+      sendDataToApi({
+        action: "batalLunas",
+        nama: nama,
+        jumlahPeriode: periode,
+        pin: pin
+      });
+    }
+
+    async function quickEksekusiAcara() {
+      const yakin = confirm(`EKSEKUSI KAS ACARA HARI INI:\n\nSistem akan otomatis mencatat:\n1. Penyerahan Arisan (Rp 3.220.000)\n2. Uang Konsumsi Tuan Rumah (Rp 900.000)\n\nLanjutkan?`);
+      if (!yakin) return;
+
+      const pin = prompt(`Masukkan PIN Bendahara untuk mengonfirmasi:`);
+      if (!pin) return;
+
+      sendDataToApi({
+        action: "eksekusiAcara",
         pin: pin
       });
     }
@@ -662,7 +704,9 @@
       });
     }
 
+    // PENGIRIM DATA DENGAN ANTI DOUBLE-CLICK OVERLAY
     async function sendDataToApi(payload) {
+      showLoading(true);
       try {
         const res = await fetch(API_URL, {
           method: "POST",
@@ -671,11 +715,19 @@
         const result = await res.json();
         alert(result.message);
         if (result.success) {
-          loadData();
+          await loadData();
         }
       } catch (err) {
         alert("Gagal terhubung ke API: " + err.toString());
+      } finally {
+        showLoading(false);
       }
+    }
+
+    function showLoading(show) {
+      const el = document.getElementById('loading-overlay');
+      if(show) el.classList.remove('hidden');
+      else el.classList.add('hidden');
     }
 
     function cleanDate(dateStr) {
