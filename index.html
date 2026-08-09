@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arisan & Buku Doa Digital</title>
   
+  <!-- PWA MANIFEST & THEME COLOR -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#047857">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -98,17 +99,17 @@
         <p class="text-xs text-slate-300">Input cepat transaksi pengeluaran acara tanpa buka spreadsheet.</p>
         
         <div class="grid grid-cols-2 gap-2 pt-1">
-          <button onclick="quickPengeluaran('Iuran Arisan', 'Penyerahan Uang Arisan (2 Pemenang)', 3220000)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs py-2 px-3 rounded font-bold text-left">
+          <button onclick="quickPengeluaran('Iuran Arisan', 'Penyerahan Uang Arisan (2 Pemenang)', 3220000)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs py-2.5 px-3 rounded-lg font-bold text-left">
             <i class="fa-solid fa-trophy mr-1"></i> Serahkan Arisan<br>
             <span class="text-[10px] font-normal opacity-80">Rp 3.220.000</span>
           </button>
-          <button onclick="quickPengeluaran('Konsumsi', 'Uang Konsumsi Tuan Rumah', 900000)" class="bg-amber-600 hover:bg-amber-500 text-white text-xs py-2 px-3 rounded font-bold text-left">
+          <button onclick="quickPengeluaran('Konsumsi', 'Uang Konsumsi Tuan Rumah', 900000)" class="bg-amber-600 hover:bg-amber-500 text-white text-xs py-2.5 px-3 rounded-lg font-bold text-left">
             <i class="fa-solid fa-utensils mr-1"></i> Serahkan Konsumsi<br>
             <span class="text-[10px] font-normal opacity-80">Rp 900.000</span>
           </button>
         </div>
 
-        <button onclick="openCustomPengeluaranModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 rounded font-semibold border border-slate-700">
+        <button onclick="openCustomPengeluaranModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2.5 rounded-lg font-semibold border border-slate-700">
           <i class="fa-solid fa-minus-circle mr-1 text-red-400"></i> Input Pengeluaran Lainnya...
         </button>
       </div>
@@ -177,10 +178,10 @@
         </div>
       </div>
 
-      <!-- STATUS IURAN PERIODE INI (DENGAN TOMBOL SET LUNAS) -->
+      <!-- STATUS IURAN PERIODE INI (JUMBO TEXT & BUTTONS RAMAH LANSIA) -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xs font-bold text-gray-700 uppercase mb-3">Status Iuran Periode Ini</h3>
-        <div id="list-iuran" class="space-y-2 text-xs"></div>
+        <div id="list-iuran" class="space-y-2"></div>
       </div>
 
     </section>
@@ -504,7 +505,7 @@
         document.getElementById('saldo-konsumsi').innerText = 'Rp ' + posKonsumsi.toLocaleString('id-ID');
         document.getElementById('saldo-arisan').innerText = 'Rp ' + posArisan.toLocaleString('id-ID');
 
-        // 4. LOGIKA STATUS IURAN & TOMBOL SET LUNAS BENDAHARA
+        // 4. LOGIKA STATUS IURAN (JUMBO TEXT & BUTTONS RAMAH LANSIA)
         const iuranContainer = document.getElementById('list-iuran');
         const tunggakanContainer = document.getElementById('list-tunggakan');
 
@@ -515,15 +516,15 @@
             const statusLunas = String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS';
 
             return `
-              <div class="flex justify-between items-center py-2 border-b text-xs">
+              <div class="flex justify-between items-center py-3 border-b border-gray-300">
                 <div>
-                  <span class="font-semibold text-gray-800 block">${item.Nama_Anggota}</span>
-                  <span class="text-[10px] text-gray-400 font-medium">${isArisan ? 'Peserta Arisan' : 'Non-Arisan'} (${nominalIuran})</span>
+                  <span class="font-bold text-base text-gray-900 block">${item.Nama_Anggota}</span>
+                  <span class="text-xs text-gray-600 font-semibold">${isArisan ? 'Arisan' : 'Non-Arisan'} (${nominalIuran})</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="px-2 py-0.5 rounded font-bold ${statusLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+                  <span class="px-3 py-1 rounded font-black text-xs ${statusLunas ? 'bg-emerald-200 text-emerald-900' : 'bg-red-200 text-red-900'}">${item.Status_Periode_Ini}</span>
                   ${!statusLunas ? `
-                    <button onclick="promptSetLunas('${item.Nama_Anggota}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[10px] px-2 py-1 rounded font-bold">
+                    <button onclick="promptSetLunas('${item.Nama_Anggota}')" class="bg-emerald-800 hover:bg-emerald-900 text-white text-xs px-3 py-2 rounded-lg font-black shadow">
                       Set Lunas
                     </button>
                   ` : ''}
@@ -543,12 +544,12 @@
               const totalNominalTunggak = (bulanTunggak * tarifPerBulan).toLocaleString('id-ID');
 
               return `
-                <div class="flex justify-between items-center p-2 bg-amber-50 rounded border border-amber-200">
+                <div class="flex justify-between items-center p-2.5 bg-amber-50 rounded border border-amber-200">
                   <div>
-                    <span class="font-semibold text-amber-950 block">${item.Nama_Anggota}</span>
-                    <span class="text-[10px] text-amber-700 font-medium">Estimasi Rp ${totalNominalTunggak}</span>
+                    <span class="font-bold text-amber-950 text-sm block">${item.Nama_Anggota}</span>
+                    <span class="text-xs text-amber-800 font-semibold">Estimasi Rp ${totalNominalTunggak}</span>
                   </div>
-                  <span class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold text-[10px]">${bulanTunggak} Bulan</span>
+                  <span class="bg-amber-200 text-amber-900 px-2 py-1 rounded font-extrabold text-xs">${bulanTunggak} Bulan</span>
                 </div>
               `;
             }).join('');
