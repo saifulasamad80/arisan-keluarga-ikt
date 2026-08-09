@@ -84,9 +84,35 @@
       </div>
     </section>
 
-    <!-- TAB 2: KEUANGAN (5 POS DANA DENGAN RINCIAN BENDAHARA) -->
+    <!-- TAB 2: KEUANGAN -->
     <section id="tab-keuangan" class="tab-content hidden space-y-4">
       
+      <!-- PANEL AKSES BENDAHARA (PIN PROTECTED) -->
+      <div class="bg-slate-900 text-white p-4 rounded-xl shadow-md space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold uppercase text-emerald-400 flex items-center gap-1">
+            <i class="fa-solid fa-user-shield"></i> Panel Pengurus / Bendahara
+          </h3>
+          <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">PIN Active</span>
+        </div>
+        <p class="text-xs text-slate-300">Input cepat transaksi pengeluaran acara tanpa buka spreadsheet.</p>
+        
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="quickPengeluaran('Iuran Arisan', 'Penyerahan Uang Arisan (2 Pemenang)', 3220000)" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs py-2 px-3 rounded font-bold text-left">
+            <i class="fa-solid fa-trophy mr-1"></i> Serahkan Arisan<br>
+            <span class="text-[10px] font-normal opacity-80">Rp 3.220.000</span>
+          </button>
+          <button onclick="quickPengeluaran('Konsumsi', 'Uang Konsumsi Tuan Rumah', 900000)" class="bg-amber-600 hover:bg-amber-500 text-white text-xs py-2 px-3 rounded font-bold text-left">
+            <i class="fa-solid fa-utensils mr-1"></i> Serahkan Konsumsi<br>
+            <span class="text-[10px] font-normal opacity-80">Rp 900.000</span>
+          </button>
+        </div>
+
+        <button onclick="openCustomPengeluaranModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs py-2 rounded font-semibold border border-slate-700">
+          <i class="fa-solid fa-minus-circle mr-1 text-red-400"></i> Input Pengeluaran Lainnya...
+        </button>
+      </div>
+
       <!-- KARTU RINGKASAN SALDO -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-3">
         <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ringkasan Kas Organisasi</h3>
@@ -96,7 +122,6 @@
           <span class="text-2xl font-black text-emerald-600" id="sisa-saldo">Rp 0</span>
         </div>
 
-        <!-- GRID 5 POS DANA -->
         <div class="grid grid-cols-2 gap-2 text-center pt-1">
           <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-100">
             <span class="text-[10px] text-emerald-800 font-bold block">1. Iuran Wajib</span>
@@ -121,7 +146,6 @@
           <span class="text-xs font-extrabold text-gray-800" id="saldo-arisan">Rp 0</span>
         </div>
 
-        <!-- TOTAL MASUK VS KELUAR -->
         <div class="grid grid-cols-2 gap-2 pt-2 border-t text-xs">
           <div>
             <span class="text-gray-500 block">Total Pemasukan:</span>
@@ -133,7 +157,6 @@
           </div>
         </div>
 
-        <!-- ACCORDION DETAIL TRANSAKSI -->
         <button onclick="toggleAccordion('detail-kas-drawer')" class="w-full text-left text-xs text-emerald-700 font-semibold flex justify-between items-center pt-2 border-t">
           <span><i class="fa-solid fa-list-check mr-1"></i> Rincian Buku Kas (Masuk & Keluar)</span>
           <i class="fa-solid fa-chevron-down"></i>
@@ -154,7 +177,7 @@
         </div>
       </div>
 
-      <!-- STATUS IURAN PERIODE INI (PEMASANGAN TIPE ANGGOTA) -->
+      <!-- STATUS IURAN PERIODE INI (DENGAN TOMBOL SET LUNAS) -->
       <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
         <h3 class="text-xs font-bold text-gray-700 uppercase mb-3">Status Iuran Periode Ini</h3>
         <div id="list-iuran" class="space-y-2 text-xs"></div>
@@ -421,7 +444,7 @@
           }).join('');
         }
 
-        // 3. LOGIKA DETIL KAS 5 POS DANA (SESUAI CATATAN BENDAHARA)
+        // 3. LOGIKA DETIL KAS 5 POS DANA
         let totalMasuk = 0;
         let totalKeluar = 0;
         let posWajib = 0;
@@ -470,42 +493,45 @@
           }).join('');
         }
 
-        // Saldo Mengendap Riil Organisasi = Wajib + Sosial + Kaos
         let saldoRiilOrganisasi = posWajib + posSosial + posKaos + posKonsumsi + posArisan;
         document.getElementById('sisa-saldo').innerText = 'Rp ' + saldoRiilOrganisasi.toLocaleString('id-ID');
         document.getElementById('total-masuk').innerText = 'Rp ' + totalMasuk.toLocaleString('id-ID');
         document.getElementById('total-keluar').innerText = 'Rp ' + totalKeluar.toLocaleString('id-ID');
         
-        // Render 5 Kantong Pos Dana
         document.getElementById('saldo-wajib').innerText = 'Rp ' + posWajib.toLocaleString('id-ID');
         document.getElementById('saldo-sosial').innerText = 'Rp ' + posSosial.toLocaleString('id-ID');
         document.getElementById('saldo-kaos').innerText = 'Rp ' + posKaos.toLocaleString('id-ID');
         document.getElementById('saldo-konsumsi').innerText = 'Rp ' + posKonsumsi.toLocaleString('id-ID');
         document.getElementById('saldo-arisan').innerText = 'Rp ' + posArisan.toLocaleString('id-ID');
 
-        // 4. LOGIKA STATUS IURAN DENGAN PEMBEDAAN TIPE ANGGOTA
+        // 4. LOGIKA STATUS IURAN & TOMBOL SET LUNAS BENDAHARA
         const iuranContainer = document.getElementById('list-iuran');
         const tunggakanContainer = document.getElementById('list-tunggakan');
 
         if(data.iuran && data.iuran.length > 0) {
-          // Render Status Iuran
           iuranContainer.innerHTML = data.iuran.map(item => {
             const isArisan = String(item.Tipe_Anggota || '').toLowerCase().includes('non') ? false : true;
             const nominalIuran = isArisan ? 'Rp 240.000' : 'Rp 100.000';
             const statusLunas = String(item.Status_Periode_Ini).toUpperCase() === 'LUNAS';
 
             return `
-              <div class="flex justify-between items-center py-1.5 border-b text-xs">
+              <div class="flex justify-between items-center py-2 border-b text-xs">
                 <div>
                   <span class="font-semibold text-gray-800 block">${item.Nama_Anggota}</span>
                   <span class="text-[10px] text-gray-400 font-medium">${isArisan ? 'Peserta Arisan' : 'Non-Arisan'} (${nominalIuran})</span>
                 </div>
-                <span class="px-2 py-0.5 rounded font-bold ${statusLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded font-bold ${statusLunas ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${item.Status_Periode_Ini}</span>
+                  ${!statusLunas ? `
+                    <button onclick="promptSetLunas('${item.Nama_Anggota}')" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[10px] px-2 py-1 rounded font-bold">
+                      Set Lunas
+                    </button>
+                  ` : ''}
+                </div>
               </div>
             `;
           }).join('');
 
-          // Render Daftar Menunggak
           const menunggakList = data.iuran.filter(item => parseInt(item.Jumlah_Tunggakan || '0', 10) > 0);
           document.getElementById('badge-total-tunggakan').innerText = menunggakList.length + ' Anggota';
 
@@ -563,6 +589,73 @@
 
       } catch (e) {
         console.error("Gagal memuat data dari Google Sheets API", e);
+      }
+    }
+
+    // HANDLER AKSI BENDAHARA VIA PIN
+    async function promptSetLunas(nama) {
+      const pin = prompt(`Akses Bendahara\nMasukkan PIN 4-digit untuk pelunasan ${nama}:`);
+      if (!pin) return;
+
+      const periode = prompt(`Berapa periode dibayar oleh ${nama}?`, "1");
+      if (!periode) return;
+
+      sendDataToApi({
+        action: "setLunas",
+        nama: nama,
+        jumlahPeriode: periode,
+        pin: pin
+      });
+    }
+
+    async function quickPengeluaran(posDana, keterangan, nominal) {
+      const pin = prompt(`Konfirmasi Pengeluaran: ${keterangan} (Rp ${nominal.toLocaleString('id-ID')})\nMasukkan PIN Bendahara:`);
+      if (!pin) return;
+
+      sendDataToApi({
+        action: "catatPengeluaran",
+        posDana: posDana,
+        keterangan: keterangan,
+        nominal: nominal,
+        pin: pin
+      });
+    }
+
+    async function openCustomPengeluaranModal() {
+      const posDana = prompt("Masukkan Pos Dana (Iuran Wajib / Dana Sosial / Konsumsi / Tabungan Kaos):", "Dana Sosial");
+      if (!posDana) return;
+
+      const keterangan = prompt("Keterangan Pengeluaran:");
+      if (!keterangan) return;
+
+      const nominal = prompt("Nominal Pengeluaran (Angka saja):");
+      if (!nominal) return;
+
+      const pin = prompt("Masukkan PIN Bendahara:");
+      if (!pin) return;
+
+      sendDataToApi({
+        action: "catatPengeluaran",
+        posDana: posDana,
+        keterangan: keterangan,
+        nominal: parseInt(nominal, 10),
+        pin: pin
+      });
+    }
+
+    async function sendDataToApi(payload) {
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        alert(result.message);
+        if (result.success) {
+          loadData();
+        }
+      } catch (err) {
+        alert("Gagal terhubung ke API: " + err.toString());
       }
     }
 
