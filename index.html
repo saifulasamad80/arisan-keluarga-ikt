@@ -605,11 +605,17 @@
       }
     }
 
-    // HANDLER AKSI BENDAHARA VIA PIN
+    // HANDLER AKSI BENDAHARA VIA PIN (DENGAN KONFIRMASI NAMA ANTI-SALAH KLIK)
     async function promptSetLunas(nama) {
+      // Step 1: Pop-up Konfirmasi Nama
+      const yakin = confirm(`KONFIRMASI PELUNASAN:\n\nApakah Anda YAKIN hendak melunasi iuran atas nama:\n👉 ${nama.toUpperCase()} ?\n\nKlik OK jika benar, Klik Cancel jika salah klik.`);
+      if (!yakin) return;
+
+      // Step 2: Input PIN Bendahara
       const pin = prompt(`Akses Bendahara\nMasukkan PIN 4-digit untuk pelunasan ${nama}:`);
       if (!pin) return;
 
+      // Step 3: Input Periode
       const periode = prompt(`Berapa periode dibayar oleh ${nama}?`, "1");
       if (!periode) return;
 
